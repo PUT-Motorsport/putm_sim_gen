@@ -179,7 +179,7 @@ P_tv_T tv_P = {
   /* Expression: 21
    * Referenced by: '<S6>/Torque_ub'
    */
-  22.0,
+  9.8,
 
   /* Expression: 84
    * Referenced by: '<S7>/Constant1'
