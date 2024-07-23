@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv'.
  *
- * Model version                  : 1.19
+ * Model version                  : 1.43
  * Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
- * C/C++ source code generated on : Mon Jun 17 15:23:14 2024
+ * C/C++ source code generated on : Sun Jul 21 12:27:19 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -39,21 +39,7 @@ RT_MODEL_tv_T *const tv_M = &tv_M_;
  * This function updates continuous states using the ODE4 fixed-step
  * solver algorithm
  */
-
-static void read_values()
-{
-  tv_P.WheelSp_FL_Value = 0;
-  tv_P.WheelSp_FR_Value = 0;
-  tv_P.WheelSp_RL_Value = 0;
-  tv_P.WheelSp_RR_Value = 0;
-  tv_P.acc_pedal_Value = 0; // Acceleration pedal 0-1
-  tv_P.ax_Value = 0;
-  tv_P.ay_Value = 0;
-  tv_P.brake_pedal_Value = 0; // Brake pedal 0-1
-  tv_P.delta_Value = 0; // Steering angle
-  tv_P.yaw_rate_Value = 0;
-}
-static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si)
+static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
 {
   time_T t = rtsiGetT(si);
   time_T tnew = rtsiGetSolverStopTime(si);
@@ -68,11 +54,11 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si)
   real_T temp;
   int_T i;
   int_T nXc = 1;
-  rtsiSetSimTimeStep(si, MINOR_TIME_STEP);
+  rtsiSetSimTimeStep(si,MINOR_TIME_STEP);
 
   /* Save the state values at time t in y, we'll use x as ynew. */
-  (void)memcpy(y, x,
-               (uint_T)nXc * sizeof(real_T));
+  (void) memcpy(y, x,
+                (uint_T)nXc*sizeof(real_T));
 
   /* Assumes that rtsiSetT and ModelOutputs are up-to-date */
   /* f0 = f(t,y) */
@@ -81,9 +67,8 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si)
 
   /* f1 = f(t + (h/2), y + (h/2)*f0) */
   temp = 0.5 * h;
-  for (i = 0; i < nXc; i++)
-  {
-    x[i] = y[i] + (temp * f0[i]);
+  for (i = 0; i < nXc; i++) {
+    x[i] = y[i] + (temp*f0[i]);
   }
 
   rtsiSetT(si, t + temp);
@@ -92,9 +77,8 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si)
   tv_derivatives();
 
   /* f2 = f(t + (h/2), y + (h/2)*f1) */
-  for (i = 0; i < nXc; i++)
-  {
-    x[i] = y[i] + (temp * f1[i]);
+  for (i = 0; i < nXc; i++) {
+    x[i] = y[i] + (temp*f1[i]);
   }
 
   rtsiSetdX(si, f2);
@@ -102,9 +86,8 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si)
   tv_derivatives();
 
   /* f3 = f(t + h, y + h*f2) */
-  for (i = 0; i < nXc; i++)
-  {
-    x[i] = y[i] + (h * f2[i]);
+  for (i = 0; i < nXc; i++) {
+    x[i] = y[i] + (h*f2[i]);
   }
 
   rtsiSetT(si, tnew);
@@ -115,330 +98,359 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si)
   /* tnew = t + h
      ynew = y + (h/6)*(f0 + 2*f1 + 2*f2 + 2*f3) */
   temp = h / 6.0;
-  for (i = 0; i < nXc; i++)
-  {
-    x[i] = y[i] + temp * (f0[i] + 2.0 * f1[i] + 2.0 * f2[i] + f3[i]);
+  for (i = 0; i < nXc; i++) {
+    x[i] = y[i] + temp*(f0[i] + 2.0*f1[i] + 2.0*f2[i] + f3[i]);
   }
 
-  rtsiSetSimTimeStep(si, MAJOR_TIME_STEP);
+  rtsiSetSimTimeStep(si,MAJOR_TIME_STEP);
 }
 
 /* Model step function */
 void tv_step(void)
 {
-  real_T Gain1_jl_tmp;
+  real_T Gain1_tmp;
   real_T Gain2_tmp;
-  real_T Sum_p_tmp;
-  real_T minV_tmp;
-  real_T minV_tmp_0;
-  if (rtmIsMajorTimeStep(tv_M))
-  {
+  real_T Gain2_tmp_0;
+  real_T Gain2_tmp_1;
+  real_T Gain_b_tmp;
+  real_T P_el_total;
+  real_T Product_b_tmp;
+  if (rtmIsMajorTimeStep(tv_M)) {
     /* set solver stop time */
-    rtsiSetSolverStopTime(&tv_M->solverInfo, ((tv_M->Timing.clockTick0 + 1) *
-                                              tv_M->Timing.stepSize0));
-  } /* end MajorTimeStep */
+    rtsiSetSolverStopTime(&tv_M->solverInfo,((tv_M->Timing.clockTick0+1)*
+      tv_M->Timing.stepSize0));
+  }                                    /* end MajorTimeStep */
 
   /* Update absolute time of base rate at minor time step */
-  if (rtmIsMinorTimeStep(tv_M))
-  {
+  if (rtmIsMinorTimeStep(tv_M)) {
     tv_M->Timing.t[0] = rtsiGetT(&tv_M->solverInfo);
   }
 
-  if (rtmIsMajorTimeStep(tv_M))
-  {
-    /* Sum: '<S5>/Plus' incorporates:
+  if (rtmIsMajorTimeStep(tv_M)) {
+    /* Gain: '<S13>/Gain2' incorporates:
      *  Constant: '<S2>/WheelSp_FL'
      *  Constant: '<S2>/WheelSp_FR'
      *  Constant: '<S2>/WheelSp_RL'
      *  Constant: '<S2>/WheelSp_RR'
+     *  Gain: '<S6>/Gain'
+     *  Gain: '<S6>/Gain1'
+     *  Sum: '<S6>/Plus'
      */
-    tv_B.Plus = ((tv_P.WheelSp_FL_Value + tv_P.WheelSp_FR_Value) +
-                 tv_P.WheelSp_RL_Value) +
-                tv_P.WheelSp_RR_Value;
-
-    /* Gain: '<S5>/Gain' */
-    tv_B.Gain = tv_P.Gain_Gain * tv_B.Plus;
-
-    /* Gain: '<S5>/Gain1' */
-    tv_B.Gain1 = tv_P.rw * tv_B.Gain;
-
-    /* Product: '<S4>/Product' incorporates:
-     *  Constant: '<S2>/yaw_rate'
-     */
-    tv_B.Product = tv_P.yaw_rate_Value * tv_B.Gain1;
-
-    /* Math: '<S4>/Square' */
-    tv_B.Square = tv_B.Gain1 * tv_B.Gain1;
-
-    /* Gain: '<S4>/Gain1' */
-    tv_B.Gain1_j = tv_P.Gain1_Gain * tv_B.Square;
-
-    /* Sum: '<S4>/Sum' incorporates:
-     *  Constant: '<S4>/Constant'
-     */
-    tv_B.Sum = tv_P.Constant_Value + tv_B.Gain1_j;
-
-    /* Gain: '<S4>/axlebase' */
-    tv_B.axlebase = tv_P.L * tv_B.Sum;
-
-    /* Product: '<S4>/Divide' */
-    tv_B.Divide = tv_B.Product / tv_B.axlebase;
-
-    /* Gain: '<S9>/Gain1' incorporates:
-     *  Constant: '<S2>/ax'
-     *  Gain: '<S10>/Gain1'
-     *  Gain: '<S11>/Gain1'
-     *  Gain: '<S12>/Gain1'
-     */
-    Gain1_jl_tmp = tv_P.h * tv_P.ax_Value;
-
-    /* Gain: '<S9>/Gain1' */
-    tv_B.Gain1_jl = Gain1_jl_tmp;
-
-    /* Gain: '<S9>/Gain2' incorporates:
-     *  Constant: '<S2>/ay'
-     *  Gain: '<S10>/Gain2'
-     */
-    minV_tmp_0 = tv_P.h * tv_P.lr / tv_P.ls;
-    Gain2_tmp = minV_tmp_0 * tv_P.ay_Value;
-
-    /* Gain: '<S9>/Gain2' */
-    tv_B.Gain2 = Gain2_tmp;
+    tv_B.Gain2 = ((tv_P.WheelSp_FL_Value + tv_P.WheelSp_FR_Value) +
+                  tv_P.WheelSp_RL_Value) + tv_P.WheelSp_RR_Value;
+    tv_B.Gain2 *= tv_P.Gain_Gain;
+    tv_B.Gain2 *= tv_P.rw;
 
     /* Sum: '<S9>/Sum' incorporates:
-     *  Constant: '<S10>/Constant'
-     *  Constant: '<S9>/Constant'
-     *  Sum: '<S10>/Sum'
+     *  Constant: '<S2>/delta'
+     *  Product: '<S5>/Product'
      */
-    minV_tmp_0 = tv_P.g * tv_P.lr;
-    Sum_p_tmp = minV_tmp_0 - tv_B.Gain1_jl;
+    tv_B.Sum = tv_P.delta_Value * tv_B.Gain2;
 
-    /* Sum: '<S9>/Sum' */
-    tv_B.Sum_p = Sum_p_tmp - tv_B.Gain2;
-
-    /* Gain: '<S9>/Gain' incorporates:
-     *  Gain: '<S10>/Gain'
-     *  Gain: '<S11>/Gain'
-     *  Gain: '<S12>/Gain'
+    /* Gain: '<S13>/Gain2' incorporates:
+     *  Constant: '<S5>/Constant'
+     *  Gain: '<S5>/Gain1'
+     *  Gain: '<S5>/axlebase'
+     *  Math: '<S5>/Square'
+     *  Sum: '<S5>/Sum'
      */
-    minV_tmp = tv_P.m / (2.0 * tv_P.L);
-    minV_tmp_0 = minV_tmp;
+    tv_B.Gain2 *= tv_B.Gain2;
+    tv_B.Gain2 *= tv_P.Gain1_Gain;
+    tv_B.Gain2 += tv_P.Constant_Value;
+    tv_B.Gain2 *= tv_P.L;
+
+    /* Sum: '<S9>/Sum' incorporates:
+     *  Constant: '<S2>/yaw_rate'
+     *  Product: '<S5>/Divide'
+     */
+    tv_B.Sum /= tv_B.Gain2;
+    tv_B.Sum -= tv_P.yaw_rate_Value;
 
     /* Gain: '<S9>/Gain' */
-    tv_B.Gain_c = minV_tmp_0 * tv_B.Sum_p;
+    tv_B.Gain = tv_P.Gain_Gain_p * tv_B.Sum;
 
-    /* Gain: '<S10>/Gain1' */
-    tv_B.Gain1_a = Gain1_jl_tmp;
+    /* Gain: '<S13>/Gain2' incorporates:
+     *  Constant: '<S2>/acc_pedal'
+     *  Constant: '<S2>/brake_pedal'
+     *  Sum: '<S8>/Sum1'
+     */
+    tv_B.Gain2 = tv_P.acc_pedal_Value - tv_P.brake_pedal_Value;
 
-    /* Gain: '<S10>/Gain2' */
-    tv_B.Gain2_j = Gain2_tmp;
+    /* Product: '<S8>/Product1' incorporates:
+     *  Constant: '<S8>/Constant1'
+     */
+    tv_B.Product1 = tv_P.max_moment * 4.0 * tv_P.drive_ratio * tv_B.Gain2;
+  }
 
-    /* Sum: '<S10>/Sum' */
-    tv_B.Sum_d = Sum_p_tmp + tv_B.Gain2_j;
+  /* Product: '<S16>/Product' incorporates:
+   *  Integrator: '<S9>/Integrator'
+   *  Sum: '<S9>/Sum1'
+   */
+  tv_B.Product = tv_X.Integrator_CSTATE;
+  tv_B.Product += tv_B.Gain;
 
-    /* Gain: '<S10>/Gain' */
-    tv_B.Gain_p = minV_tmp_0 * tv_B.Sum_d;
+  /* Gain: '<S14>/Gain' incorporates:
+   *  Gain: '<S15>/Gain'
+   *  Gain: '<S16>/Gain'
+   *  Gain: '<S17>/Gain'
+   */
+  P_el_total = tv_P.rw / tv_P.ls * tv_B.Product;
 
-    /* Gain: '<S11>/Gain1' */
-    tv_B.Gain1_m = Gain1_jl_tmp;
+  /* Product: '<S17>/Product' incorporates:
+   *  Gain: '<S14>/Gain'
+   */
+  tv_B.Product_b = P_el_total;
 
-    /* Gain: '<S11>/Gain2' incorporates:
+  /* Sum: '<S14>/Sum' incorporates:
+   *  Sum: '<S17>/Sum'
+   */
+  Product_b_tmp = tv_B.Product1 - tv_B.Product_b;
+
+  /* Product: '<S17>/Product' incorporates:
+   *  Sum: '<S14>/Sum'
+   */
+  tv_B.Product_b = Product_b_tmp;
+  if (rtmIsMajorTimeStep(tv_M)) {
+    /* Gain: '<S10>/Gain1' incorporates:
+     *  Constant: '<S2>/ax'
+     *  Gain: '<S11>/Gain1'
+     */
+    Gain2_tmp = tv_P.h * tv_P.ax_Value;
+
+    /* Gain: '<S13>/Gain2' incorporates:
+     *  Gain: '<S10>/Gain1'
+     */
+    tv_B.Gain2 = Gain2_tmp;
+
+    /* Gain: '<S10>/Gain2' incorporates:
      *  Constant: '<S2>/ay'
+     *  Gain: '<S11>/Gain2'
+     */
+    Gain_b_tmp = tv_P.h * tv_P.lr / tv_P.ls * tv_P.ay_Value;
+
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Gain: '<S10>/Gain2'
+     */
+    tv_B.Gain_b = Gain_b_tmp;
+
+    /* Sum: '<S10>/Sum' incorporates:
+     *  Constant: '<S10>/Constant'
+     *  Constant: '<S11>/Constant'
+     *  Sum: '<S11>/Sum'
+     */
+    Gain2_tmp_0 = tv_P.g * tv_P.lr;
+
+    /* Gain: '<S13>/Gain2' incorporates:
+     *  Constant: '<S10>/Constant'
+     *  Sum: '<S10>/Sum'
+     */
+    tv_B.Gain2 = (Gain2_tmp_0 - tv_B.Gain2) - tv_B.Gain_b;
+
+    /* Gain: '<S10>/Gain' incorporates:
+     *  Gain: '<S11>/Gain'
+     */
+    Gain2_tmp_1 = tv_P.m / (2.0 * tv_P.L);
+
+    /* Gain: '<S13>/Gain2' incorporates:
+     *  Gain: '<S10>/Gain'
+     */
+    tv_B.Gain2 *= Gain2_tmp_1;
+
+    /* Gain: '<S14>/Gain1' incorporates:
+     *  Gain: '<S15>/Gain1'
+     */
+    Gain1_tmp = 1.0 / (tv_P.m * tv_P.g);
+
+    /* Gain: '<S14>/Gain1' */
+    tv_B.Gain1 = Gain1_tmp * tv_B.Gain2;
+
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Gain: '<S11>/Gain1'
+     */
+    tv_B.Gain_b = Gain2_tmp;
+
+    /* Gain: '<S13>/Gain2' incorporates:
+     *  Gain: '<S11>/Gain2'
+     */
+    tv_B.Gain2 = Gain_b_tmp;
+
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Gain: '<S11>/Gain'
+     *  Sum: '<S11>/Sum'
+     */
+    tv_B.Gain_b = (Gain2_tmp_0 - tv_B.Gain_b) + tv_B.Gain2;
+    tv_B.Gain_b *= Gain2_tmp_1;
+
+    /* Gain: '<S15>/Gain1' */
+    tv_B.Gain1_g = Gain1_tmp * tv_B.Gain_b;
+  }
+
+  /* Product: '<S17>/Product' incorporates:
+   *  Product: '<S14>/Product'
+   */
+  tv_B.Product_b *= tv_B.Gain1;
+
+  /* MinMax: '<S7>/Min' incorporates:
+   *  Constant: '<S7>/Torque_ub'
+   *  MinMax: '<S7>/Min1'
+   *  MinMax: '<S7>/Min2'
+   *  MinMax: '<S7>/Min3'
+   */
+  Gain2_tmp_0 = tv_P.max_moment * tv_P.drive_ratio;
+
+  /* MinMax: '<S7>/Min' incorporates:
+   *  Constant: '<S7>/Torque_ub'
+   */
+  tv_B.Min = fmin(Gain2_tmp_0, tv_B.Product_b);
+
+  /* Product: '<S17>/Product' incorporates:
+   *  Gain: '<S15>/Gain'
+   */
+  tv_B.Product_b = P_el_total;
+
+  /* Sum: '<S15>/Sum' incorporates:
+   *  Sum: '<S16>/Sum'
+   */
+  P_el_total = tv_B.Product1 + tv_B.Product_b;
+
+  /* Product: '<S17>/Product' incorporates:
+   *  Product: '<S15>/Product'
+   *  Sum: '<S15>/Sum'
+   */
+  tv_B.Product_b = P_el_total;
+  tv_B.Product_b *= tv_B.Gain1_g;
+
+  /* MinMax: '<S7>/Min1' */
+  tv_B.Min1 = fmin(Gain2_tmp_0, tv_B.Product_b);
+  if (rtmIsMajorTimeStep(tv_M)) {
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Constant: '<S2>/ax'
+     *  Gain: '<S12>/Gain1'
+     */
+    tv_B.Gain_b = tv_P.h * tv_P.ax_Value;
+
+    /* Gain: '<S12>/Gain2' incorporates:
+     *  Constant: '<S2>/ay'
+     *  Gain: '<S13>/Gain2'
+     */
+    Gain2_tmp = tv_P.h * tv_P.lf / tv_P.ls * tv_P.ay_Value;
+
+    /* Gain: '<S13>/Gain2' incorporates:
      *  Gain: '<S12>/Gain2'
      */
-    minV_tmp_0 = tv_P.h * tv_P.lf / tv_P.ls;
-    Gain2_tmp = minV_tmp_0 * tv_P.ay_Value;
+    tv_B.Gain2 = Gain2_tmp;
 
-    /* Gain: '<S11>/Gain2' */
-    tv_B.Gain2_g = Gain2_tmp;
+    /* Sum: '<S12>/Sum' incorporates:
+     *  Constant: '<S12>/Constant'
+     *  Constant: '<S13>/Constant'
+     *  Sum: '<S13>/Sum'
+     */
+    Gain_b_tmp = tv_P.g * tv_P.lf;
 
-    /* Sum: '<S11>/Sum' incorporates:
-     *  Constant: '<S11>/Constant'
+    /* Gain: '<S13>/Gain' incorporates:
      *  Constant: '<S12>/Constant'
      *  Sum: '<S12>/Sum'
      */
-    minV_tmp_0 = tv_P.g * tv_P.lf;
-    Sum_p_tmp = minV_tmp_0 + tv_B.Gain1_m;
+    tv_B.Gain_b = (Gain_b_tmp + tv_B.Gain_b) - tv_B.Gain2;
 
-    /* Sum: '<S11>/Sum' */
-    tv_B.Sum_c = Sum_p_tmp - tv_B.Gain2_g;
-
-    /* Gain: '<S11>/Gain' */
-    minV_tmp_0 = minV_tmp;
-
-    /* Gain: '<S11>/Gain' */
-    tv_B.Gain_b = minV_tmp_0 * tv_B.Sum_c;
-
-    /* Gain: '<S12>/Gain1' */
-    tv_B.Gain1_p = Gain1_jl_tmp;
-
-    /* Gain: '<S12>/Gain2' */
-    tv_B.Gain2_m = Gain2_tmp;
-
-    /* Sum: '<S12>/Sum' */
-    tv_B.Sum_k = Sum_p_tmp + tv_B.Gain2_m;
-
-    /* Gain: '<S12>/Gain' */
-    tv_B.Gain_m = minV_tmp_0 * tv_B.Sum_k;
-
-    /* Gain: '<S13>/Gain1' */
-    minV_tmp_0 = 1.0 / (tv_P.m * tv_P.g);
-
-    /* Gain: '<S13>/Gain1' */
-    tv_B.Gain1_aq = minV_tmp_0 * tv_B.Gain_c;
-
-    /* Sum: '<S7>/Sum1' incorporates:
-     *  Constant: '<S2>/acc_pedal'
-     *  Constant: '<S2>/brake_pedal'
+    /* Gain: '<S12>/Gain' incorporates:
+     *  Gain: '<S13>/Gain'
      */
-    tv_B.Sum1 = tv_P.acc_pedal_Value - tv_P.brake_pedal_Value;
+    Gain2_tmp_1 = tv_P.m / (2.0 * tv_P.L);
 
-    /* Product: '<S7>/Product1' incorporates:
-     *  Constant: '<S7>/Constant1'
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Gain: '<S12>/Gain'
      */
-    tv_B.Product1 = tv_P.Constant1_Value * tv_B.Sum1;
+    tv_B.Gain_b *= Gain2_tmp_1;
 
-    /* Sum: '<S8>/Sum' incorporates:
-     *  Constant: '<S2>/delta'
+    /* Gain: '<S17>/Gain1' incorporates:
+     *  Gain: '<S16>/Gain1'
      */
-    tv_B.Sum_h = tv_B.Divide - tv_P.delta_Value;
+    Gain1_tmp = 1.0 / (tv_P.m * tv_P.g);
 
-    /* Gain: '<S8>/Gain' */
-    tv_B.Gain_g = tv_P.Gain_Gain_i * tv_B.Sum_h;
+    /* Gain: '<S17>/Gain1' */
+    tv_B.Gain1_gv = Gain1_tmp * tv_B.Gain_b;
+
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Constant: '<S2>/ax'
+     *  Gain: '<S13>/Gain1'
+     */
+    tv_B.Gain_b = tv_P.h * tv_P.ax_Value;
+
+    /* Gain: '<S13>/Gain2' */
+    tv_B.Gain2 = Gain2_tmp;
+
+    /* Gain: '<S13>/Gain' incorporates:
+     *  Sum: '<S13>/Sum'
+     */
+    tv_B.Gain_b = (Gain_b_tmp + tv_B.Gain_b) + tv_B.Gain2;
+    tv_B.Gain_b *= Gain2_tmp_1;
+
+    /* Gain: '<S16>/Gain1' */
+    tv_B.Gain1_m = Gain1_tmp * tv_B.Gain_b;
   }
 
-  /* Integrator: '<S8>/Integrator' */
-  tv_B.Integrator = tv_X.Integrator_CSTATE;
-
-  /* Sum: '<S8>/Sum1' */
-  tv_B.Sum1_f = tv_B.Gain_g + tv_B.Integrator;
-
-  /* Gain: '<S13>/Gain' incorporates:
-   *  Gain: '<S14>/Gain'
-   *  Gain: '<S15>/Gain'
-   *  Gain: '<S16>/Gain'
+  /* Product: '<S17>/Product' incorporates:
+   *  Sum: '<S17>/Sum'
    */
-  minV_tmp_0 = tv_P.rw / tv_P.ls;
-  Gain1_jl_tmp = minV_tmp_0 * tv_B.Sum1_f;
+  tv_B.Product_b = Product_b_tmp;
+  tv_B.Product_b *= tv_B.Gain1_gv;
 
-  /* Gain: '<S13>/Gain' */
-  tv_B.Gain_cd = Gain1_jl_tmp;
+  /* MinMax: '<S7>/Min2' */
+  tv_B.Min2 = fmin(Gain2_tmp_0, tv_B.Product_b);
 
-  /* Sum: '<S13>/Sum' incorporates:
+  /* Product: '<S16>/Product' incorporates:
    *  Sum: '<S16>/Sum'
    */
-  minV_tmp = tv_B.Product1 - tv_B.Gain_cd;
+  tv_B.Product = P_el_total;
+  tv_B.Product *= tv_B.Gain1_m;
 
-  /* Sum: '<S13>/Sum' */
-  tv_B.Sum_l = minV_tmp;
+  /* MinMax: '<S7>/Min3' */
+  tv_B.Min3 = fmin(Gain2_tmp_0, tv_B.Product);
 
-  /* Product: '<S13>/Product' */
-  tv_B.Product_k = tv_B.Gain1_aq * tv_B.Sum_l;
-
-  /* MinMax: '<S6>/Min' incorporates:
-   *  Constant: '<S6>/Torque_ub'
+  /* MATLAB Function: '<S18>/MATLAB Function' incorporates:
+   *  Constant: '<S18>/Constant'
+   *  Constant: '<S18>/eta1'
+   *  Constant: '<S2>/WheelSp_FL'
+   *  Constant: '<S2>/WheelSp_FR'
+   *  Constant: '<S2>/WheelSp_RL'
+   *  Constant: '<S2>/WheelSp_RR'
    */
-  minV_tmp_0 = fmin(tv_P.Torque_ub_Value, tv_B.Product_k);
-
-  /* MinMax: '<S6>/Min' */
-  tv_B.Min = minV_tmp_0;
-  if (rtmIsMajorTimeStep(tv_M))
-  {
-    /* Gain: '<S14>/Gain1' */
-    minV_tmp_0 = 1.0 / (tv_P.m * tv_P.g);
-
-    /* Gain: '<S14>/Gain1' */
-    tv_B.Gain1_e = minV_tmp_0 * tv_B.Gain_p;
+  P_el_total = (((tv_B.Min * tv_P.WheelSp_FL_Value + tv_B.Min1 *
+                  tv_P.WheelSp_FR_Value) + tv_B.Min2 * tv_P.WheelSp_RL_Value) +
+                tv_B.Min3 * tv_P.WheelSp_RR_Value) / tv_P.eta1_Value;
+  if (P_el_total > tv_P.P_max) {
+    P_el_total = tv_P.P_max / P_el_total;
+    tv_B.Trq_FL_scaled = tv_B.Min * P_el_total;
+    tv_B.Trq_FR_scaled = tv_B.Min1 * P_el_total;
+    tv_B.Trq_RL_scaled = tv_B.Min2 * P_el_total;
+    tv_B.Trq_RR_scaled = tv_B.Min3 * P_el_total;
+  } else {
+    tv_B.Trq_FL_scaled = tv_B.Min;
+    tv_B.Trq_FR_scaled = tv_B.Min1;
+    tv_B.Trq_RL_scaled = tv_B.Min2;
+    tv_B.Trq_RR_scaled = tv_B.Min3;
   }
 
-  /* Gain: '<S14>/Gain' */
-  tv_B.Gain_k = Gain1_jl_tmp;
+  /* End of MATLAB Function: '<S18>/MATLAB Function' */
 
-  /* Sum: '<S14>/Sum' incorporates:
-   *  Sum: '<S15>/Sum'
-   */
-  Gain2_tmp = tv_B.Product1 + tv_B.Gain_k;
+  /* Gain: '<S4>/Trq_FL' */
+  tv_B.Trq_FL = tv_P.Trq_FL_Gain * tv_B.Trq_FL_scaled;
 
-  /* Sum: '<S14>/Sum' */
-  tv_B.Sum_pk = Gain2_tmp;
+  /* Gain: '<S4>/Trq_FR' */
+  tv_B.Trq_FR = tv_P.Trq_FR_Gain * tv_B.Trq_FR_scaled;
 
-  /* Product: '<S14>/Product' */
-  tv_B.Product_b = tv_B.Gain1_e * tv_B.Sum_pk;
+  /* Gain: '<S4>/Trq_RL' */
+  tv_B.Trq_RL = tv_P.Trq_RL_Gain * tv_B.Trq_RL_scaled;
 
-  /* MinMax: '<S6>/Min1' incorporates:
-   *  Constant: '<S6>/Torque_ub'
-   */
-  minV_tmp_0 = fmin(tv_P.Torque_ub_Value, tv_B.Product_b);
-
-  /* MinMax: '<S6>/Min1' */
-  tv_B.Min1 = minV_tmp_0;
-  if (rtmIsMajorTimeStep(tv_M))
-  {
-    /* Gain: '<S16>/Gain1' */
-    minV_tmp_0 = 1.0 / (tv_P.m * tv_P.g);
-
-    /* Gain: '<S16>/Gain1' */
-    tv_B.Gain1_g = minV_tmp_0 * tv_B.Gain_b;
+  /* Gain: '<S4>/Trq_RR' */
+  tv_B.Trq_RR = tv_P.Trq_RR_Gain * tv_B.Trq_RR_scaled;
+  if (rtmIsMajorTimeStep(tv_M)) {
+    /* Gain: '<S9>/Gain1' */
+    tv_B.Gain1_e = tv_P.Gain1_Gain_f * tv_B.Sum;
   }
 
-  /* Gain: '<S16>/Gain' */
-  tv_B.Gain_j = Gain1_jl_tmp;
-
-  /* Sum: '<S16>/Sum' */
-  tv_B.Sum_f = minV_tmp;
-
-  /* Product: '<S16>/Product' */
-  tv_B.Product_h = tv_B.Gain1_g * tv_B.Sum_f;
-
-  /* MinMax: '<S6>/Min2' incorporates:
-   *  Constant: '<S6>/Torque_ub'
-   */
-  minV_tmp_0 = fmin(tv_P.Torque_ub_Value, tv_B.Product_h);
-
-  /* MinMax: '<S6>/Min2' */
-  tv_B.Min2 = minV_tmp_0;
-  if (rtmIsMajorTimeStep(tv_M))
-  {
-    /* Gain: '<S15>/Gain1' */
-    minV_tmp_0 = 1.0 / (tv_P.m * tv_P.g);
-
-    /* Gain: '<S15>/Gain1' */
-    tv_B.Gain1_c = minV_tmp_0 * tv_B.Gain_m;
-
-    /* Gain: '<S8>/Gain1' */
-    tv_B.Gain1_f = tv_P.Gain1_Gain_o * tv_B.Sum_h;
-  }
-
-  /* Gain: '<S15>/Gain' */
-  tv_B.Gain_md = Gain1_jl_tmp;
-
-  /* Sum: '<S15>/Sum' */
-  tv_B.Sum_b = Gain2_tmp;
-
-  /* Product: '<S15>/Product' */
-  tv_B.Product_c = tv_B.Gain1_c * tv_B.Sum_b;
-
-  /* MinMax: '<S6>/Min3' incorporates:
-   *  Constant: '<S6>/Torque_ub'
-   */
-  minV_tmp_0 = fmin(tv_P.Torque_ub_Value, tv_B.Product_c);
-
-  /* MinMax: '<S6>/Min3' */
-  tv_B.Min3 = minV_tmp_0;
-
-  /* Gain: '<S1>/Trq_FL' */
-  tv_B.Trq_FL = tv_P.Trq_FL_Gain * tv_B.Min;
-
-  /* Gain: '<S1>/Trq_FR' */
-  tv_B.Trq_FR = tv_P.Trq_FR_Gain * tv_B.Min1;
-
-  /* Gain: '<S1>/Trq_RL' */
-  tv_B.Trq_RL = tv_P.Trq_RL_Gain * tv_B.Min2;
-
-  /* Gain: '<S1>/Trq_RR' */
-  tv_B.Trq_RR = tv_P.Trq_RR_Gain * tv_B.Min3;
-  if (rtmIsMajorTimeStep(tv_M))
-  {
+  if (rtmIsMajorTimeStep(tv_M)) {
     rt_ertODEUpdateContinuousStates(&tv_M->solverInfo);
 
     /* Update absolute time for base rate */
@@ -459,23 +471,22 @@ void tv_step(void)
        */
       tv_M->Timing.clockTick1++;
     }
-  } /* end MajorTimeStep */
+  }                                    /* end MajorTimeStep */
 }
 
 /* Derivatives for root system: '<Root>' */
 void tv_derivatives(void)
 {
   XDot_tv_T *_rtXdot;
-  _rtXdot = ((XDot_tv_T *)tv_M->derivs);
+  _rtXdot = ((XDot_tv_T *) tv_M->derivs);
 
-  /* Derivatives for Integrator: '<S8>/Integrator' */
-  _rtXdot->Integrator_CSTATE = tv_B.Gain1_f;
+  /* Derivatives for Integrator: '<S9>/Integrator' */
+  _rtXdot->Integrator_CSTATE = tv_B.Gain1_e;
 }
 
 /* Model initialize function */
 void tv_initialize(void)
 {
-  read_values();
   /* Registration code */
   {
     /* Setup solver object */
@@ -483,15 +494,16 @@ void tv_initialize(void)
     rtsiSetTPtr(&tv_M->solverInfo, &rtmGetTPtr(tv_M));
     rtsiSetStepSizePtr(&tv_M->solverInfo, &tv_M->Timing.stepSize0);
     rtsiSetdXPtr(&tv_M->solverInfo, &tv_M->derivs);
-    rtsiSetContStatesPtr(&tv_M->solverInfo, (real_T **)&tv_M->contStates);
+    rtsiSetContStatesPtr(&tv_M->solverInfo, (real_T **) &tv_M->contStates);
     rtsiSetNumContStatesPtr(&tv_M->solverInfo, &tv_M->Sizes.numContStates);
     rtsiSetNumPeriodicContStatesPtr(&tv_M->solverInfo,
-                                    &tv_M->Sizes.numPeriodicContStates);
+      &tv_M->Sizes.numPeriodicContStates);
     rtsiSetPeriodicContStateIndicesPtr(&tv_M->solverInfo,
-                                       &tv_M->periodicContStateIndices);
+      &tv_M->periodicContStateIndices);
     rtsiSetPeriodicContStateRangesPtr(&tv_M->solverInfo,
-                                      &tv_M->periodicContStateRanges);
-    rtsiSetContStateDisabledPtr(&tv_M->solverInfo, (boolean_T **)&tv_M->contStateDisabled);
+      &tv_M->periodicContStateRanges);
+    rtsiSetContStateDisabledPtr(&tv_M->solverInfo, (boolean_T**)
+      &tv_M->contStateDisabled);
     rtsiSetErrorStatusPtr(&tv_M->solverInfo, (&rtmGetErrorStatus(tv_M)));
     rtsiSetRTModelPtr(&tv_M->solverInfo, tv_M);
   }
@@ -504,15 +516,15 @@ void tv_initialize(void)
   tv_M->intgData.f[1] = tv_M->odeF[1];
   tv_M->intgData.f[2] = tv_M->odeF[2];
   tv_M->intgData.f[3] = tv_M->odeF[3];
-  tv_M->contStates = ((X_tv_T *)&tv_X);
-  tv_M->contStateDisabled = ((XDis_tv_T *)&tv_XDis);
+  tv_M->contStates = ((X_tv_T *) &tv_X);
+  tv_M->contStateDisabled = ((XDis_tv_T *) &tv_XDis);
   tv_M->Timing.tStart = (0.0);
   rtsiSetSolverData(&tv_M->solverInfo, (void *)&tv_M->intgData);
-  rtsiSetSolverName(&tv_M->solverInfo, "ode4");
+  rtsiSetSolverName(&tv_M->solverInfo,"ode4");
   rtmSetTPtr(tv_M, &tv_M->Timing.tArray[0]);
   tv_M->Timing.stepSize0 = 0.2;
 
-  /* InitializeConditions for Integrator: '<S8>/Integrator' */
+  /* InitializeConditions for Integrator: '<S9>/Integrator' */
   tv_X.Integrator_CSTATE = tv_P.Integrator_IC;
 }
 

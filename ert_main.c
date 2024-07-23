@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv'.
  *
- * Model version                  : 1.19
+ * Model version                  : 1.9
  * Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
- * C/C++ source code generated on : Mon Jun 17 15:23:14 2024
+ * C/C++ source code generated on : Thu Jul 11 14:41:52 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -18,8 +18,9 @@
  */
 
 #include <stddef.h>
-#include <stdio.h> /* This example main program uses printf/fflush */
-#include "tv.h"    /* Model header file */
+#include <stdio.h>            /* This example main program uses printf/fflush */
+#include "tv.h"                        /* Model header file */
+#include "read.h"
 
 /*
  * Associating rt_OneStep with a real-time clock or interrupt service routine
@@ -40,8 +41,7 @@ void rt_OneStep(void)
   /* Disable interrupts here */
 
   /* Check for overrun */
-  if (OverrunFlag)
-  {
+  if (OverrunFlag) {
     rtmSetErrorStatus(tv_M, "Overrun");
     return;
   }
@@ -83,13 +83,13 @@ int_T main(int_T argc, const char *argv[])
   /* Simulating the model step behavior (in non real-time) to
    *  simulate model behavior at stop time.
    */
-  while (rtmGetErrorStatus(tv_M) == (NULL) && !rtmGetStopRequested(tv_M))
-  {
+  while (rtmGetErrorStatus(tv_M) == (NULL)&& !rtmGetStopRequested(tv_M)) {
+    read_inputs();
     rt_OneStep();
-    printf("Trq_FL_Value: %f\n", tv_B.Trq_FL);
-    printf("Trq_FR_Value: %f\n", tv_B.Trq_FR);
-    printf("Trq_RL_Value: %f\n", tv_B.Trq_RL);
-    printf("Trq_RR_Value: %f\n", tv_B.Trq_RR);
+    printf("FL: %f\n",tv_B.Trq_FL_scaled);
+    printf("FR: %f\n",tv_B.Trq_FR_scaled);
+    printf("RL: %f\n",tv_B.Trq_RL_scaled);
+    printf("RR: %f\n",tv_B.Trq_RR_scaled);
   }
 
   /* Terminate model */
