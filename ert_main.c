@@ -5,11 +5,11 @@
  *
  * File: ert_main.c
  *
- * Code generated for Simulink model 'tv'.
+ * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.9
- * Simulink Coder version         : 24.1 (R2024a) 19-Nov-2023
- * C/C++ source code generated on : Thu Jul 11 14:41:52 2024
+ * Model version                  : 1.10
+ * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
+ * C/C++ source code generated on : Sat Oct  5 19:41:48 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -19,9 +19,8 @@
 
 #include <stddef.h>
 #include <stdio.h>            /* This example main program uses printf/fflush */
-#include "tv.h"                        /* Model header file */
+#include "tv_code.h"                   /* Model header file */
 #include "read.h"
-
 /*
  * Associating rt_OneStep with a real-time clock or interrupt service routine
  * is what makes the generated code "real-time".  The function rt_OneStep is
@@ -33,6 +32,8 @@
  * your application needs.  This example simply sets an error status in the
  * real-time model and returns from rt_OneStep.
  */
+
+
 void rt_OneStep(void);
 void rt_OneStep(void)
 {
@@ -42,7 +43,7 @@ void rt_OneStep(void)
 
   /* Check for overrun */
   if (OverrunFlag) {
-    rtmSetErrorStatus(tv_M, "Overrun");
+    rtmSetErrorStatus(tv_code_M, "Overrun");
     return;
   }
 
@@ -53,7 +54,13 @@ void rt_OneStep(void)
   /* Set model inputs here */
 
   /* Step the model */
-  tv_step();
+  read_inputs();
+  tv_code_P.delta_Value *=3.14/180;
+  tv_code_step();
+    printf("Front left %f\n",tv_code_B.trq_fl);
+    printf("Front right %f\n",tv_code_B.trq_fr);
+    printf("Rear left %f\n",tv_code_B.trq_rl);
+    printf("Rear right %f\n",tv_code_B.trq_rr);
 
   /* Get model outputs here */
 
@@ -78,22 +85,20 @@ int_T main(int_T argc, const char *argv[])
   (void)(argv);
 
   /* Initialize model */
-  tv_initialize();
+  tv_code_initialize();
 
   /* Simulating the model step behavior (in non real-time) to
    *  simulate model behavior at stop time.
    */
-  while (rtmGetErrorStatus(tv_M) == (NULL)&& !rtmGetStopRequested(tv_M)) {
-    read_inputs();
+  while ((rtmGetErrorStatus(tv_code_M) == (NULL)) && !rtmGetStopRequested
+         (tv_code_M)) {
+    
     rt_OneStep();
-    printf("FL: %f\n",tv_B.Trq_FL_scaled);
-    printf("FR: %f\n",tv_B.Trq_FR_scaled);
-    printf("RL: %f\n",tv_B.Trq_RL_scaled);
-    printf("RR: %f\n",tv_B.Trq_RR_scaled);
+    
   }
 
   /* Terminate model */
-  tv_terminate();
+  tv_code_terminate();
   return 0;
 }
 
