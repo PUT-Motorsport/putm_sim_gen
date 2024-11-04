@@ -208,7 +208,7 @@ void tv_code_step(void)
     tv_code_B.Gain1 = tv_code_P.rw * tv_code_B.Gain2;
 
     /* Switch: '<S7>/Switch' */
-    if (tv_code_B.Product1 >= tv_code_P.Switch_Threshold) {
+    if (tv_code_B.Product1 > tv_code_P.Switch_Threshold) {
       /* Switch: '<S7>/Switch' incorporates:
        *  Constant: '<S7>/Constant'
        */
