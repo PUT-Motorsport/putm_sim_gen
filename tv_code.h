@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.22
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sat Oct  5 19:47:47 2024
+ * C/C++ source code generated on : Thu Nov 28 13:21:00 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -60,34 +60,56 @@
 #define rtmGetTPtr(rtm)                ((rtm)->Timing.t)
 #endif
 
+/* Block signals for system '<S2>/ax_filter' */
+typedef struct {
+  real_T ax_filter;                    /* '<S2>/ax_filter' */
+} B_ax_filter_tv_code_T;
+
+/* Block states (default storage) for system '<S2>/ax_filter' */
+typedef struct {
+  dsp_simulink_LowpassFilter_tv_T obj; /* '<S2>/ax_filter' */
+  boolean_T objisempty;                /* '<S2>/ax_filter' */
+  boolean_T isInitialized;             /* '<S2>/ax_filter' */
+} DW_ax_filter_tv_code_T;
+
 /* Block signals (default storage) */
 typedef struct {
   real_T Product1;                     /* '<S8>/Product1' */
   real_T Saturation[4];                /* '<S6>/Saturation' */
   real_T Gain1;                        /* '<S5>/Gain1' */
   real_T Switch;                       /* '<S7>/Switch' */
-  real_T Gain1_o;                      /* '<S14>/Gain1' */
+  real_T Gain1_f;                      /* '<S14>/Gain1' */
   real_T DotProduct;                   /* '<S9>/Dot Product' */
   real_T Integrator;                   /* '<S9>/Integrator' */
-  real_T Gain1_l;                      /* '<S15>/Gain1' */
-  real_T Gain1_lh;                     /* '<S17>/Gain1' */
-  real_T Gain1_j;                      /* '<S16>/Gain1' */
+  real_T Gain1_d;                      /* '<S15>/Gain1' */
+  real_T Gain1_b;                      /* '<S17>/Gain1' */
+  real_T Gain1_m;                      /* '<S16>/Gain1' */
   real_T trq_fl;                       /* '<Root>/trq_fl' */
   real_T trq_fr;                       /* '<Root>/trq_fr' */
   real_T trq_rl;                       /* '<Root>/trq_rl' */
   real_T trq_rr;                       /* '<Root>/trq_rr' */
   real_T DotProduct1;                  /* '<S9>/Dot Product1' */
-  real_T DotProduct_a;                 /* '<S7>/Dot Product' */
-  real_T DotProduct1_f;                /* '<S7>/Dot Product1' */
+  real_T DotProduct_e;                 /* '<S7>/Dot Product' */
+  real_T DotProduct1_k;                /* '<S7>/Dot Product1' */
   real_T DotProduct2;                  /* '<S7>/Dot Product2' */
   real_T DotProduct3;                  /* '<S7>/Dot Product3' */
-  real_T Switch_b[4];                  /* '<S3>/Switch' */
-  real_T Sum;                          /* '<S9>/Sum' */
+  real_T Switch_m[4];                  /* '<S3>/Switch' */
   real_T Saturation3;                  /* '<S7>/Saturation3' */
+  real_T Sum;                          /* '<S9>/Sum' */
   real_T Gain;                         /* '<S13>/Gain' */
   real_T Saturation2;                  /* '<S7>/Saturation2' */
   real_T Gain2;                        /* '<S13>/Gain2' */
+  B_ax_filter_tv_code_T yaw_rate_filter;/* '<S2>/ax_filter' */
+  B_ax_filter_tv_code_T ay_filter;     /* '<S2>/ax_filter' */
+  B_ax_filter_tv_code_T ax_filter;     /* '<S2>/ax_filter' */
 } B_tv_code_T;
+
+/* Block states (default storage) for system '<Root>' */
+typedef struct {
+  DW_ax_filter_tv_code_T yaw_rate_filter;/* '<S2>/ax_filter' */
+  DW_ax_filter_tv_code_T ay_filter;    /* '<S2>/ax_filter' */
+  DW_ax_filter_tv_code_T ax_filter;    /* '<S2>/ax_filter' */
+} DW_tv_code_T;
 
 /* Continuous states (default storage) */
 typedef struct {
@@ -231,13 +253,13 @@ struct P_tv_code_T_ {
   real_T Constant_Value;               /* Expression: 1
                                         * Referenced by: '<S7>/Constant'
                                         */
-  real_T Constant1_Value;              /* Expression: -1
+  real_T Constant1_Value;              /* Expression: 0
                                         * Referenced by: '<S7>/Constant1'
                                         */
-  real_T acc_pedal_Value;              /* Expression: 1
+  real_T acc_pedal_Value;              /* Expression: 0
                                         * Referenced by: '<S2>/acc_pedal'
                                         */
-  real_T Constant_Value_o;             /* Expression: 0
+  real_T Constant_Value_n;             /* Expression: 0
                                         * Referenced by: '<S8>/Constant'
                                         */
   real_T Gain_Gain;                    /* Expression: 1/4
@@ -246,58 +268,61 @@ struct P_tv_code_T_ {
   real_T Saturation_UpperSat;          /* Expression: inf
                                         * Referenced by: '<S6>/Saturation'
                                         */
-  real_T Saturation_LowerSat_e;        /* Expression: 0
+  real_T Saturation_LowerSat_k;        /* Expression: 0
                                         * Referenced by: '<S6>/Saturation'
                                         */
   real_T whl_speed_fl_Value;           /* Expression: 1
                                         * Referenced by: '<S2>/whl_speed_fl'
                                         */
-  real_T whl_speed_fr_Value;           /* Expression: 1
+  real_T whl_speed_fr_Value;           /* Expression: 0
                                         * Referenced by: '<S2>/whl_speed_fr'
                                         */
-  real_T whl_speed_rl_Value;           /* Expression: 1
+  real_T whl_speed_rl_Value;           /* Expression: 0
                                         * Referenced by: '<S2>/whl_speed_rl'
                                         */
-  real_T whl_speed_rr_Value;           /* Expression: 1
+  real_T whl_speed_rr_Value;           /* Expression: 0
                                         * Referenced by: '<S2>/whl_speed_rr'
                                         */
-  real_T Gain_Gain_j;                  /* Expression: 1/4
+  real_T Gain_Gain_n;                  /* Expression: 1/4
                                         * Referenced by: '<S5>/Gain'
                                         */
   real_T Switch_Threshold;             /* Expression: 0
                                         * Referenced by: '<S7>/Switch'
                                         */
-  real_T ax_Value;                     /* Expression: 1
+  real_T ax_Value;                     /* Expression: 0
                                         * Referenced by: '<S2>/ax'
                                         */
-  real_T ay_Value;                     /* Expression: 1
+  real_T ay_Value;                     /* Expression: 0
                                         * Referenced by: '<S2>/ay'
                                         */
-  real_T yaw_rate_Value;               /* Expression: 1
+  real_T yaw_rate_Value;               /* Expression: 0
                                         * Referenced by: '<S2>/yaw_rate'
                                         */
-  real_T delta_Value;                  /* Expression: 1
+  real_T delta_Value;                  /* Expression: 0
                                         * Referenced by: '<S2>/delta'
                                         */
-  real_T Constant_Value_c;             /* Expression: 1
+  real_T Constant_Value_m;             /* Expression: 1
                                         * Referenced by: '<S4>/Constant'
                                         */
   real_T Saturation1_UpperSat;         /* Expression: inf
                                         * Referenced by: '<S4>/Saturation1'
                                         */
-  real_T Saturation1_LowerSat_j;       /* Expression: 0.3
+  real_T Saturation1_LowerSat_k;       /* Expression: 0.3
                                         * Referenced by: '<S4>/Saturation1'
                                         */
-  real_T Saturation_UpperSat_h;        /* Expression: 6
-                                        * Referenced by: '<S4>/Saturation'
+  real_T saturation_UpperSat;          /* Expression: 6
+                                        * Referenced by: '<S4>/saturation'
                                         */
-  real_T Saturation_LowerSat_h;        /* Expression: -6
-                                        * Referenced by: '<S4>/Saturation'
+  real_T saturation_LowerSat;          /* Expression: -6
+                                        * Referenced by: '<S4>/saturation'
+                                        */
+  real_T yaw_rate_ref_Gain;            /* Expression: 1
+                                        * Referenced by: '<S4>/yaw_rate_ref'
                                         */
   real_T Integrator_IC;                /* Expression: 0
                                         * Referenced by: '<S9>/Integrator'
                                         */
-  real_T Switch_Threshold_i;           /* Expression: 0
+  real_T Switch_Threshold_e;           /* Expression: 2
                                         * Referenced by: '<S3>/Switch'
                                         */
   real_T trq_fl_Gain;                  /* Expression: 1
@@ -366,6 +391,9 @@ extern B_tv_code_T tv_code_B;
 
 /* Continuous states (default storage) */
 extern X_tv_code_T tv_code_X;
+
+/* Block states (default storage) */
+extern DW_tv_code_T tv_code_DW;
 
 /* Model entry point functions */
 extern void tv_code_initialize(void);

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.22
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sat Oct  5 19:47:47 2024
+ * C/C++ source code generated on : Thu Nov 28 13:21:00 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -34,7 +34,7 @@ P_tv_code_T tv_code_P = {
    *   '<S12>/Gain'
    *   '<S13>/Gain'
    */
-  2.6,
+  1.53,
 
   /* Variable: Mz_I
    * Referenced by: '<S2>/Mz Integative Gain'
@@ -44,7 +44,7 @@ P_tv_code_T tv_code_P = {
   /* Variable: Mz_p
    * Referenced by: '<S2>/Mz Proportional Gain'
    */
-  1000.0,
+  700.0,
 
   /* Variable: drive_ratio
    * Referenced by:
@@ -171,15 +171,15 @@ P_tv_code_T tv_code_P = {
    */
   1.0,
 
-  /* Expression: -1
+  /* Expression: 0
    * Referenced by: '<S7>/Constant1'
    */
-  -1.0,
+  0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/acc_pedal'
    */
-  1.0,
+  0.0,
 
   /* Expression: 0
    * Referenced by: '<S8>/Constant'
@@ -206,20 +206,20 @@ P_tv_code_T tv_code_P = {
    */
   1.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/whl_speed_fr'
    */
-  1.0,
+  0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/whl_speed_rl'
    */
-  1.0,
+  0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/whl_speed_rr'
    */
-  1.0,
+  0.0,
 
   /* Expression: 1/4
    * Referenced by: '<S5>/Gain'
@@ -231,25 +231,25 @@ P_tv_code_T tv_code_P = {
    */
   0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/ax'
    */
-  1.0,
+  0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/ay'
    */
-  1.0,
+  0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/yaw_rate'
    */
-  1.0,
+  0.0,
 
-  /* Expression: 1
+  /* Expression: 0
    * Referenced by: '<S2>/delta'
    */
-  1.0,
+  0.0,
 
   /* Expression: 1
    * Referenced by: '<S4>/Constant'
@@ -267,24 +267,29 @@ P_tv_code_T tv_code_P = {
   0.3,
 
   /* Expression: 6
-   * Referenced by: '<S4>/Saturation'
+   * Referenced by: '<S4>/saturation'
    */
   6.0,
 
   /* Expression: -6
-   * Referenced by: '<S4>/Saturation'
+   * Referenced by: '<S4>/saturation'
    */
   -6.0,
+
+  /* Expression: 1
+   * Referenced by: '<S4>/yaw_rate_ref'
+   */
+  1.0,
 
   /* Expression: 0
    * Referenced by: '<S9>/Integrator'
    */
   0.0,
 
-  /* Expression: 0
+  /* Expression: 2
    * Referenced by: '<S3>/Switch'
    */
-  0.0,
+  2.0,
 
   /* Expression: 1
    * Referenced by: '<Root>/trq_fl'

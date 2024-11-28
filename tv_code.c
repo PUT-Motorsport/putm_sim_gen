@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.22
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sat Oct  5 19:47:47 2024
+ * C/C++ source code generated on : Thu Nov 28 13:21:00 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -20,6 +20,7 @@
 #include "tv_code.h"
 #include "rtwtypes.h"
 #include "tv_code_private.h"
+#include "tv_code_types.h"
 #include "rt_nonfinite.h"
 
 /* Block signals (default storage) */
@@ -27,6 +28,9 @@ B_tv_code_T tv_code_B;
 
 /* Continuous states */
 X_tv_code_T tv_code_X;
+
+/* Block states (default storage) */
+DW_tv_code_T tv_code_DW;
 
 /* Real-time model */
 static RT_MODEL_tv_code_T tv_code_M_;
@@ -102,6 +106,132 @@ static void rt_ertODEUpdateContinuousStates(RTWSolverInfo *si )
   rtsiSetSimTimeStep(si,MAJOR_TIME_STEP);
 }
 
+/* System initialize for atomic system: */
+void tv_code_ax_filter_Init(DW_ax_filter_tv_code_T *localDW)
+{
+  b_dspcodegen_FIRFilter_tv_cod_T *iobj_0;
+  int32_T i;
+  static const real_T tmp[9] = { -0.005412996192943418, -0.00037695464995368688,
+    0.082835378892191724, 0.25136596710560233, 0.34706570862151792,
+    0.25136596710560233, 0.082835378892191724, -0.00037695464995368688,
+    -0.005412996192943418 };
+
+  /* Start for MATLABSystem: '<S2>/ax_filter' */
+  localDW->obj._pobj0.matlabCodegenIsDeleted = true;
+  localDW->obj.NumChannels = -1;
+  localDW->obj.matlabCodegenIsDeleted = false;
+  localDW->objisempty = true;
+  localDW->obj.isInitialized = 1;
+  if (localDW->obj.NumChannels == -1) {
+    localDW->obj.NumChannels = 1;
+  }
+
+  iobj_0 = &localDW->obj._pobj0;
+  localDW->obj._pobj0.isInitialized = 0;
+  localDW->obj._pobj0.isInitialized = 0;
+
+  /* System object Constructor function: dsp.FIRFilter */
+  localDW->obj._pobj0.cSFunObject.P0_InitialStates = 0.0;
+  for (i = 0; i < 9; i++) {
+    iobj_0->cSFunObject.P1_Coefficients[i] = tmp[i];
+  }
+
+  localDW->obj._pobj0.matlabCodegenIsDeleted = false;
+  localDW->obj.FilterObj = &localDW->obj._pobj0;
+  localDW->obj.isSetupComplete = true;
+
+  /* End of Start for MATLABSystem: '<S2>/ax_filter' */
+
+  /* InitializeConditions for MATLABSystem: '<S2>/ax_filter' */
+  iobj_0 = localDW->obj.FilterObj;
+  if (iobj_0->isInitialized == 1) {
+    /* System object Initialization function: dsp.FIRFilter */
+    for (i = 0; i < 8; i++) {
+      iobj_0->cSFunObject.W0_states[i] = iobj_0->cSFunObject.P0_InitialStates;
+    }
+  }
+
+  /* End of InitializeConditions for MATLABSystem: '<S2>/ax_filter' */
+}
+
+/* Output and update for atomic system: */
+void tv_code_ax_filter(real_T rtu_0, B_ax_filter_tv_code_T *localB,
+  DW_ax_filter_tv_code_T *localDW)
+{
+  b_dsp_FIRFilter_0_tv_code_T *obj_0;
+  b_dspcodegen_FIRFilter_tv_cod_T *obj;
+  real_T acc1;
+  real_T zCurr;
+  real_T zNext;
+  int32_T n;
+
+  /* MATLABSystem: '<S2>/ax_filter' */
+  obj = localDW->obj.FilterObj;
+  if (obj->isInitialized != 1) {
+    obj->isSetupComplete = false;
+    obj->isInitialized = 1;
+    obj->isSetupComplete = true;
+
+    /* System object Initialization function: dsp.FIRFilter */
+    for (n = 0; n < 8; n++) {
+      obj->cSFunObject.W0_states[n] = obj->cSFunObject.P0_InitialStates;
+    }
+  }
+
+  obj_0 = &obj->cSFunObject;
+
+  /* System object Outputs function: dsp.FIRFilter */
+  acc1 = 0.0;
+
+  /* load input sample */
+  zNext = rtu_0;
+  for (n = 0; n < 8; n++) {
+    /* shift state */
+    zCurr = zNext;
+    zNext = obj_0->W0_states[n];
+    obj_0->W0_states[n] = zCurr;
+
+    /* compute one tap */
+    zCurr *= obj_0->P1_Coefficients[n];
+    acc1 += zCurr;
+  }
+
+  /* compute last tap */
+  zCurr = obj->cSFunObject.P1_Coefficients[n] * zNext;
+
+  /* MATLABSystem: '<S2>/ax_filter' */
+  /* store output sample */
+  localB->ax_filter = acc1 + zCurr;
+}
+
+/* Termination for atomic system: */
+void tv_code_ax_filter_Term(DW_ax_filter_tv_code_T *localDW)
+{
+  b_dspcodegen_FIRFilter_tv_cod_T *obj;
+
+  /* Terminate for MATLABSystem: '<S2>/ax_filter' */
+  if (!localDW->obj.matlabCodegenIsDeleted) {
+    localDW->obj.matlabCodegenIsDeleted = true;
+    if ((localDW->obj.isInitialized == 1) && localDW->obj.isSetupComplete) {
+      obj = localDW->obj.FilterObj;
+      if (obj->isInitialized == 1) {
+        obj->isInitialized = 2;
+      }
+
+      localDW->obj.NumChannels = -1;
+    }
+  }
+
+  if (!localDW->obj._pobj0.matlabCodegenIsDeleted) {
+    localDW->obj._pobj0.matlabCodegenIsDeleted = true;
+    if (localDW->obj._pobj0.isInitialized == 1) {
+      localDW->obj._pobj0.isInitialized = 2;
+    }
+  }
+
+  /* End of Terminate for MATLABSystem: '<S2>/ax_filter' */
+}
+
 /* Model step function */
 void tv_code_step(void)
 {
@@ -118,7 +248,7 @@ void tv_code_step(void)
   }
 
   if (rtmIsMajorTimeStep(tv_code_M)) {
-    real_T Gain1_o_tmp;
+    real_T Gain1_f_tmp;
     real_T Gain2_tmp_0;
     real_T Gain2_tmp_1;
 
@@ -128,7 +258,7 @@ void tv_code_step(void)
      *  Gain: '<S13>/Gain2'
      *  Sum: '<S8>/Sum1'
      */
-    tv_code_B.Gain2 = tv_code_P.acc_pedal_Value - tv_code_P.Constant_Value_o;
+    tv_code_B.Gain2 = tv_code_P.acc_pedal_Value - tv_code_P.Constant_Value_n;
 
     /* Product: '<S8>/Product1' incorporates:
      *  Constant: '<S8>/Constant1'
@@ -146,9 +276,9 @@ void tv_code_step(void)
     if (tv_code_B.Gain2 > tv_code_P.Saturation_UpperSat) {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[0] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_e) {
+    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_k) {
       /* Saturate: '<S6>/Saturation' */
-      tv_code_B.Saturation[0] = tv_code_P.Saturation_LowerSat_e;
+      tv_code_B.Saturation[0] = tv_code_P.Saturation_LowerSat_k;
     } else {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[0] = tv_code_B.Gain2;
@@ -157,9 +287,9 @@ void tv_code_step(void)
     if (tv_code_B.Gain2 > tv_code_P.Saturation_UpperSat) {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[1] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_e) {
+    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_k) {
       /* Saturate: '<S6>/Saturation' */
-      tv_code_B.Saturation[1] = tv_code_P.Saturation_LowerSat_e;
+      tv_code_B.Saturation[1] = tv_code_P.Saturation_LowerSat_k;
     } else {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[1] = tv_code_B.Gain2;
@@ -168,9 +298,9 @@ void tv_code_step(void)
     if (tv_code_B.Gain2 > tv_code_P.Saturation_UpperSat) {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[2] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_e) {
+    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_k) {
       /* Saturate: '<S6>/Saturation' */
-      tv_code_B.Saturation[2] = tv_code_P.Saturation_LowerSat_e;
+      tv_code_B.Saturation[2] = tv_code_P.Saturation_LowerSat_k;
     } else {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[2] = tv_code_B.Gain2;
@@ -179,9 +309,9 @@ void tv_code_step(void)
     if (tv_code_B.Gain2 > tv_code_P.Saturation_UpperSat) {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[3] = tv_code_P.Saturation_UpperSat;
-    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_e) {
+    } else if (tv_code_B.Gain2 < tv_code_P.Saturation_LowerSat_k) {
       /* Saturate: '<S6>/Saturation' */
-      tv_code_B.Saturation[3] = tv_code_P.Saturation_LowerSat_e;
+      tv_code_B.Saturation[3] = tv_code_P.Saturation_LowerSat_k;
     } else {
       /* Saturate: '<S6>/Saturation' */
       tv_code_B.Saturation[3] = tv_code_B.Gain2;
@@ -202,7 +332,7 @@ void tv_code_step(void)
                         tv_code_P.whl_speed_fr_Value) +
                        tv_code_P.whl_speed_rl_Value) +
       tv_code_P.whl_speed_rr_Value;
-    tv_code_B.Gain2 *= tv_code_P.Gain_Gain_j;
+    tv_code_B.Gain2 *= tv_code_P.Gain_Gain_n;
 
     /* Gain: '<S5>/Gain1' */
     tv_code_B.Gain1 = tv_code_P.rw * tv_code_B.Gain2;
@@ -222,11 +352,14 @@ void tv_code_step(void)
 
     /* End of Switch: '<S7>/Switch' */
 
+    /* Constant: '<S2>/ax' */
+    tv_code_ax_filter(tv_code_P.ax_Value, &tv_code_B.ax_filter,
+                      &tv_code_DW.ax_filter);
+
     /* Gain: '<S10>/Gain1' incorporates:
-     *  Constant: '<S2>/ax'
      *  Gain: '<S11>/Gain1'
      */
-    Gain2_tmp = tv_code_P.h * tv_code_P.ax_Value;
+    Gain2_tmp = tv_code_P.h * tv_code_B.ax_filter.ax_filter;
 
     /* Gain: '<S12>/Gain2' incorporates:
      *  Gain: '<S10>/Gain1'
@@ -234,12 +367,15 @@ void tv_code_step(void)
      */
     tv_code_B.Gain2 = Gain2_tmp;
 
+    /* Constant: '<S2>/ay' */
+    tv_code_ax_filter(tv_code_P.ay_Value, &tv_code_B.ay_filter,
+                      &tv_code_DW.ay_filter);
+
     /* Gain: '<S10>/Gain2' incorporates:
-     *  Constant: '<S2>/ay'
      *  Gain: '<S11>/Gain2'
      */
     tv_code_B.Gain = tv_code_P.h * tv_code_P.lr / tv_code_P.ls *
-      tv_code_P.ay_Value;
+      tv_code_B.ay_filter.ax_filter;
 
     /* Sum: '<S9>/Sum' incorporates:
      *  Gain: '<S10>/Gain2'
@@ -274,10 +410,14 @@ void tv_code_step(void)
     /* Gain: '<S14>/Gain1' incorporates:
      *  Gain: '<S15>/Gain1'
      */
-    Gain1_o_tmp = 1.0 / (tv_code_P.m * tv_code_P.g);
+    Gain1_f_tmp = 1.0 / (tv_code_P.m * tv_code_P.g);
 
     /* Gain: '<S14>/Gain1' */
-    tv_code_B.Gain1_o = Gain1_o_tmp * tv_code_B.Gain2;
+    tv_code_B.Gain1_f = Gain1_f_tmp * tv_code_B.Gain2;
+
+    /* Constant: '<S2>/yaw_rate' */
+    tv_code_ax_filter(tv_code_P.yaw_rate_Value, &tv_code_B.yaw_rate_filter,
+                      &tv_code_DW.yaw_rate_filter);
 
     /* Sum: '<S9>/Sum' incorporates:
      *  Constant: '<S2>/delta'
@@ -295,7 +435,7 @@ void tv_code_step(void)
      */
     tv_code_B.Gain2 = tv_code_B.Gain1 * tv_code_B.Gain1;
     tv_code_B.Gain2 *= tv_code_P.Ku;
-    tv_code_B.Gain2 += tv_code_P.Constant_Value_c;
+    tv_code_B.Gain2 += tv_code_P.Constant_Value_m;
     tv_code_B.Gain2 *= tv_code_P.L;
 
     /* Saturate: '<S4>/Saturation1' */
@@ -304,11 +444,11 @@ void tv_code_step(void)
        *  Gain: '<S13>/Gain2'
        */
       tv_code_B.Gain2 = tv_code_P.Saturation1_UpperSat;
-    } else if (tv_code_B.Gain2 < tv_code_P.Saturation1_LowerSat_j) {
+    } else if (tv_code_B.Gain2 < tv_code_P.Saturation1_LowerSat_k) {
       /* Gain: '<S12>/Gain2' incorporates:
        *  Gain: '<S13>/Gain2'
        */
-      tv_code_B.Gain2 = tv_code_P.Saturation1_LowerSat_j;
+      tv_code_B.Gain2 = tv_code_P.Saturation1_LowerSat_k;
     }
 
     /* End of Saturate: '<S4>/Saturation1' */
@@ -318,21 +458,22 @@ void tv_code_step(void)
      */
     tv_code_B.Sum /= tv_code_B.Gain2;
 
-    /* Saturate: '<S4>/Saturation' */
-    if (tv_code_B.Sum > tv_code_P.Saturation_UpperSat_h) {
+    /* Saturate: '<S4>/saturation' */
+    if (tv_code_B.Sum > tv_code_P.saturation_UpperSat) {
       /* Sum: '<S9>/Sum' */
-      tv_code_B.Sum = tv_code_P.Saturation_UpperSat_h;
-    } else if (tv_code_B.Sum < tv_code_P.Saturation_LowerSat_h) {
+      tv_code_B.Sum = tv_code_P.saturation_UpperSat;
+    } else if (tv_code_B.Sum < tv_code_P.saturation_LowerSat) {
       /* Sum: '<S9>/Sum' */
-      tv_code_B.Sum = tv_code_P.Saturation_LowerSat_h;
+      tv_code_B.Sum = tv_code_P.saturation_LowerSat;
     }
 
-    /* End of Saturate: '<S4>/Saturation' */
+    /* End of Saturate: '<S4>/saturation' */
 
     /* Sum: '<S9>/Sum' incorporates:
-     *  Constant: '<S2>/yaw_rate'
+     *  Gain: '<S4>/yaw_rate_ref'
      */
-    tv_code_B.Sum -= tv_code_P.yaw_rate_Value;
+    tv_code_B.Sum *= tv_code_P.yaw_rate_ref_Gain;
+    tv_code_B.Sum -= tv_code_B.yaw_rate_filter.ax_filter;
 
     /* DotProduct: '<S9>/Dot Product' incorporates:
      *  Constant: '<S2>/Mz Proportional Gain'
@@ -350,7 +491,7 @@ void tv_code_step(void)
     tv_code_B.Gain2 *= Gain2_tmp_1;
 
     /* Gain: '<S15>/Gain1' */
-    tv_code_B.Gain1_l = Gain1_o_tmp * tv_code_B.Gain2;
+    tv_code_B.Gain1_d = Gain1_f_tmp * tv_code_B.Gain2;
 
     /* Gain: '<S10>/Gain2' incorporates:
      *  Gain: '<S12>/Gain1'
@@ -359,11 +500,10 @@ void tv_code_step(void)
     tv_code_B.Gain = Gain2_tmp;
 
     /* Gain: '<S12>/Gain2' incorporates:
-     *  Constant: '<S2>/ay'
      *  Gain: '<S13>/Gain2'
      */
     tv_code_B.Gain2 = tv_code_P.h * tv_code_P.lf / tv_code_P.ls *
-      tv_code_P.ay_Value;
+      tv_code_B.ay_filter.ax_filter;
 
     /* Sum: '<S12>/Sum' incorporates:
      *  Constant: '<S12>/Constant'
@@ -382,7 +522,7 @@ void tv_code_step(void)
     tv_code_B.Gain *= Gain2_tmp_1;
 
     /* Gain: '<S17>/Gain1' */
-    tv_code_B.Gain1_lh = Gain1_o_tmp * tv_code_B.Gain;
+    tv_code_B.Gain1_b = Gain1_f_tmp * tv_code_B.Gain;
 
     /* Gain: '<S10>/Gain2' incorporates:
      *  Gain: '<S13>/Gain'
@@ -394,14 +534,14 @@ void tv_code_step(void)
     tv_code_B.Gain *= Gain2_tmp_1;
 
     /* Gain: '<S16>/Gain1' */
-    tv_code_B.Gain1_j = Gain1_o_tmp * tv_code_B.Gain;
+    tv_code_B.Gain1_m = Gain1_f_tmp * tv_code_B.Gain;
   }
 
   /* Integrator: '<S9>/Integrator' */
   tv_code_B.Integrator = tv_code_X.Integrator_CSTATE;
 
   /* Switch: '<S3>/Switch' */
-  if (tv_code_B.Gain1 > tv_code_P.Switch_Threshold_i) {
+  if (tv_code_B.Gain1 > tv_code_P.Switch_Threshold_e) {
     /* Gain: '<S14>/Gain' incorporates:
      *  Gain: '<S15>/Gain'
      *  Gain: '<S16>/Gain'
@@ -419,7 +559,7 @@ void tv_code_step(void)
      */
     tv_code_B.Saturation2 = tv_code_B.Saturation3;
     tv_code_B.Saturation2 = tv_code_B.Product1 - tv_code_B.Saturation2;
-    tv_code_B.Saturation2 *= tv_code_B.Gain1_o;
+    tv_code_B.Saturation2 *= tv_code_B.Gain1_f;
 
     /* Saturate: '<S7>/Saturation' incorporates:
      *  Saturate: '<S7>/Saturation1'
@@ -440,7 +580,7 @@ void tv_code_step(void)
     /* End of Saturate: '<S7>/Saturation' */
 
     /* DotProduct: '<S7>/Dot Product' */
-    tv_code_B.DotProduct_a = tv_code_B.Switch * tv_code_B.Saturation2;
+    tv_code_B.DotProduct_e = tv_code_B.Switch * tv_code_B.Saturation2;
 
     /* Saturate: '<S7>/Saturation2' incorporates:
      *  Gain: '<S15>/Gain'
@@ -449,7 +589,7 @@ void tv_code_step(void)
      */
     tv_code_B.Saturation2 = tv_code_B.Saturation3;
     tv_code_B.Saturation2 += tv_code_B.Product1;
-    tv_code_B.Saturation2 *= tv_code_B.Gain1_l;
+    tv_code_B.Saturation2 *= tv_code_B.Gain1_d;
 
     /* Saturate: '<S7>/Saturation1' */
     if (tv_code_B.Saturation2 > Gain2_tmp) {
@@ -463,7 +603,7 @@ void tv_code_step(void)
     }
 
     /* DotProduct: '<S7>/Dot Product1' */
-    tv_code_B.DotProduct1_f = tv_code_B.Switch * tv_code_B.Saturation2;
+    tv_code_B.DotProduct1_k = tv_code_B.Switch * tv_code_B.Saturation2;
 
     /* Saturate: '<S7>/Saturation2' incorporates:
      *  Gain: '<S17>/Gain'
@@ -472,7 +612,7 @@ void tv_code_step(void)
      */
     tv_code_B.Saturation2 = tv_code_B.Saturation3;
     tv_code_B.Saturation2 = tv_code_B.Product1 - tv_code_B.Saturation2;
-    tv_code_B.Saturation2 *= tv_code_B.Gain1_lh;
+    tv_code_B.Saturation2 *= tv_code_B.Gain1_b;
 
     /* Saturate: '<S7>/Saturation2' */
     if (tv_code_B.Saturation2 > Gain2_tmp) {
@@ -492,7 +632,7 @@ void tv_code_step(void)
      *  Sum: '<S16>/Sum'
      */
     tv_code_B.Saturation3 += tv_code_B.Product1;
-    tv_code_B.Saturation3 *= tv_code_B.Gain1_j;
+    tv_code_B.Saturation3 *= tv_code_B.Gain1_m;
 
     /* Saturate: '<S7>/Saturation3' */
     if (tv_code_B.Saturation3 > Gain2_tmp) {
@@ -511,31 +651,31 @@ void tv_code_step(void)
     tv_code_B.DotProduct3 = tv_code_B.Switch * tv_code_B.Saturation3;
 
     /* Switch: '<S3>/Switch' */
-    tv_code_B.Switch_b[0] = tv_code_B.DotProduct_a;
-    tv_code_B.Switch_b[1] = tv_code_B.DotProduct1_f;
-    tv_code_B.Switch_b[2] = tv_code_B.DotProduct2;
-    tv_code_B.Switch_b[3] = tv_code_B.DotProduct3;
+    tv_code_B.Switch_m[0] = tv_code_B.DotProduct_e;
+    tv_code_B.Switch_m[1] = tv_code_B.DotProduct1_k;
+    tv_code_B.Switch_m[2] = tv_code_B.DotProduct2;
+    tv_code_B.Switch_m[3] = tv_code_B.DotProduct3;
   } else {
     /* Switch: '<S3>/Switch' */
-    tv_code_B.Switch_b[0] = tv_code_B.Saturation[0];
-    tv_code_B.Switch_b[1] = tv_code_B.Saturation[1];
-    tv_code_B.Switch_b[2] = tv_code_B.Saturation[2];
-    tv_code_B.Switch_b[3] = tv_code_B.Saturation[3];
+    tv_code_B.Switch_m[0] = tv_code_B.Saturation[0];
+    tv_code_B.Switch_m[1] = tv_code_B.Saturation[1];
+    tv_code_B.Switch_m[2] = tv_code_B.Saturation[2];
+    tv_code_B.Switch_m[3] = tv_code_B.Saturation[3];
   }
 
   /* End of Switch: '<S3>/Switch' */
 
   /* Gain: '<Root>/trq_fl' */
-  tv_code_B.trq_fl = tv_code_P.trq_fl_Gain * tv_code_B.Switch_b[0];
+  tv_code_B.trq_fl = tv_code_P.trq_fl_Gain * tv_code_B.Switch_m[0];
 
   /* Gain: '<Root>/trq_fr' */
-  tv_code_B.trq_fr = tv_code_P.trq_fr_Gain * tv_code_B.Switch_b[1];
+  tv_code_B.trq_fr = tv_code_P.trq_fr_Gain * tv_code_B.Switch_m[1];
 
   /* Gain: '<Root>/trq_rl' */
-  tv_code_B.trq_rl = tv_code_P.trq_rl_Gain * tv_code_B.Switch_b[2];
+  tv_code_B.trq_rl = tv_code_P.trq_rl_Gain * tv_code_B.Switch_m[2];
 
   /* Gain: '<Root>/trq_rr' */
-  tv_code_B.trq_rr = tv_code_P.trq_rr_Gain * tv_code_B.Switch_b[3];
+  tv_code_B.trq_rr = tv_code_P.trq_rr_Gain * tv_code_B.Switch_m[3];
   if (rtmIsMajorTimeStep(tv_code_M)) {
     /* DotProduct: '<S9>/Dot Product1' incorporates:
      *  Constant: '<S2>/Mz Integative Gain'
@@ -624,12 +764,23 @@ void tv_code_initialize(void)
 
   /* InitializeConditions for Integrator: '<S9>/Integrator' */
   tv_code_X.Integrator_CSTATE = tv_code_P.Integrator_IC;
+
+  /* Constant: '<S2>/ax' */
+  tv_code_ax_filter_Init(&tv_code_DW.ax_filter);
+
+  /* Constant: '<S2>/ay' */
+  tv_code_ax_filter_Init(&tv_code_DW.ay_filter);
+
+  /* Constant: '<S2>/yaw_rate' */
+  tv_code_ax_filter_Init(&tv_code_DW.yaw_rate_filter);
 }
 
 /* Model terminate function */
 void tv_code_terminate(void)
 {
-  /* (no terminate code required) */
+  tv_code_ax_filter_Term(&tv_code_DW.ax_filter);
+  tv_code_ax_filter_Term(&tv_code_DW.ay_filter);
+  tv_code_ax_filter_Term(&tv_code_DW.yaw_rate_filter);
 }
 
 /*
