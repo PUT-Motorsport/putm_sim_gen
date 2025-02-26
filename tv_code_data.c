@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.22
+ * Model version                  : 1.30
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Thu Nov 28 13:21:00 2024
+ * C/C++ source code generated on : Wed Feb 26 15:34:24 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -22,17 +22,19 @@
 /* Block parameters (default storage) */
 P_tv_code_T tv_code_P = {
   /* Variable: Ku
-   * Referenced by: '<S4>/Desired Understeer Gradient'
+   * Referenced by: '<S5>/Desired Understeer Gradient'
    */
-  -0.0025,
+  -0.002,
 
   /* Variable: L
    * Referenced by:
-   *   '<S4>/axlebase'
-   *   '<S10>/Gain'
-   *   '<S11>/Gain'
-   *   '<S12>/Gain'
-   *   '<S13>/Gain'
+   *   '<S5>/axlebase'
+   *   '<S12>/Z1'
+   *   '<S12>/Z2'
+   *   '<S14>/Gain'
+   *   '<S15>/Gain'
+   *   '<S16>/Gain'
+   *   '<S17>/Gain'
    */
   1.53,
 
@@ -44,190 +46,259 @@ P_tv_code_T tv_code_P = {
   /* Variable: Mz_p
    * Referenced by: '<S2>/Mz Proportional Gain'
    */
-  700.0,
+  500.0,
+
+  /* Variable: P_max
+   * Referenced by:
+   *   '<S4>/Constant'
+   *   '<S4>/Switch'
+   */
+  80000.0,
+
+  /* Variable: batt_voltage
+   * Referenced by:
+   *   '<S4>/Constant'
+   *   '<S4>/Switch'
+   */
+  587.0,
 
   /* Variable: drive_ratio
    * Referenced by:
-   *   '<S7>/Saturation'
-   *   '<S7>/Saturation1'
-   *   '<S7>/Saturation2'
-   *   '<S7>/Saturation3'
-   *   '<S8>/Constant1'
+   *   '<S9>/Saturation'
+   *   '<S9>/Saturation1'
+   *   '<S9>/Saturation2'
+   *   '<S9>/Saturation3'
+   *   '<S10>/Constant1'
+   *   '<S12>/Gain'
+   *   '<S12>/Gain1'
    */
   14.25,
 
   /* Variable: g
    * Referenced by:
-   *   '<S10>/Constant'
-   *   '<S11>/Constant'
-   *   '<S12>/Constant'
-   *   '<S13>/Constant'
-   *   '<S14>/Gain1'
-   *   '<S15>/Gain1'
-   *   '<S16>/Gain1'
-   *   '<S17>/Gain1'
+   *   '<S12>/Z1'
+   *   '<S12>/Z2'
+   *   '<S14>/Constant'
+   *   '<S15>/Constant'
+   *   '<S16>/Constant'
+   *   '<S17>/Constant'
+   *   '<S18>/Gain1'
+   *   '<S19>/Gain1'
+   *   '<S20>/Gain1'
+   *   '<S21>/Gain1'
    */
   9.81,
 
   /* Variable: h
    * Referenced by:
-   *   '<S10>/Gain1'
-   *   '<S10>/Gain2'
-   *   '<S11>/Gain1'
-   *   '<S11>/Gain2'
-   *   '<S12>/Gain1'
-   *   '<S12>/Gain2'
-   *   '<S13>/Gain1'
-   *   '<S13>/Gain2'
+   *   '<S14>/Gain1'
+   *   '<S14>/Gain2'
+   *   '<S15>/Gain1'
+   *   '<S15>/Gain2'
+   *   '<S16>/Gain1'
+   *   '<S16>/Gain2'
+   *   '<S17>/Gain1'
+   *   '<S17>/Gain2'
    */
   0.25,
 
   /* Variable: lf
    * Referenced by:
-   *   '<S12>/Constant'
-   *   '<S12>/Gain2'
-   *   '<S13>/Constant'
-   *   '<S13>/Gain2'
+   *   '<S12>/Z1'
+   *   '<S16>/Constant'
+   *   '<S16>/Gain2'
+   *   '<S17>/Constant'
+   *   '<S17>/Gain2'
    */
   0.765,
 
   /* Variable: lr
    * Referenced by:
-   *   '<S10>/Constant'
-   *   '<S10>/Gain2'
-   *   '<S11>/Constant'
-   *   '<S11>/Gain2'
+   *   '<S12>/Z2'
+   *   '<S14>/Constant'
+   *   '<S14>/Gain2'
+   *   '<S15>/Constant'
+   *   '<S15>/Gain2'
    */
   0.765,
 
   /* Variable: ls
    * Referenced by:
-   *   '<S10>/Gain2'
-   *   '<S11>/Gain2'
-   *   '<S12>/Gain2'
-   *   '<S13>/Gain2'
-   *   '<S14>/Gain'
-   *   '<S15>/Gain'
-   *   '<S16>/Gain'
-   *   '<S17>/Gain'
+   *   '<S14>/Gain2'
+   *   '<S15>/Gain2'
+   *   '<S16>/Gain2'
+   *   '<S17>/Gain2'
+   *   '<S18>/Gain'
+   *   '<S19>/Gain'
+   *   '<S20>/Gain'
+   *   '<S21>/Gain'
    */
   1.242,
 
   /* Variable: m
    * Referenced by:
-   *   '<S10>/Gain'
-   *   '<S11>/Gain'
-   *   '<S12>/Gain'
-   *   '<S13>/Gain'
-   *   '<S14>/Gain1'
-   *   '<S15>/Gain1'
-   *   '<S16>/Gain1'
-   *   '<S17>/Gain1'
+   *   '<S12>/Z1'
+   *   '<S12>/Z2'
+   *   '<S14>/Gain'
+   *   '<S15>/Gain'
+   *   '<S16>/Gain'
+   *   '<S17>/Gain'
+   *   '<S18>/Gain1'
+   *   '<S19>/Gain1'
+   *   '<S20>/Gain1'
+   *   '<S21>/Gain1'
    */
-  180.0,
+  220.0,
 
   /* Variable: max_moment
    * Referenced by:
-   *   '<S7>/Saturation'
-   *   '<S7>/Saturation1'
-   *   '<S7>/Saturation2'
-   *   '<S7>/Saturation3'
-   *   '<S8>/Constant1'
+   *   '<S9>/Saturation'
+   *   '<S9>/Saturation1'
+   *   '<S9>/Saturation2'
+   *   '<S9>/Saturation3'
+   *   '<S10>/Constant1'
    */
   9.8,
 
   /* Variable: rw
    * Referenced by:
-   *   '<S5>/Gain1'
-   *   '<S14>/Gain'
-   *   '<S15>/Gain'
-   *   '<S16>/Gain'
-   *   '<S17>/Gain'
+   *   '<S7>/Gain1'
+   *   '<S12>/Ta'
+   *   '<S12>/Tr'
+   *   '<S18>/Gain'
+   *   '<S19>/Gain'
+   *   '<S20>/Gain'
+   *   '<S21>/Gain'
    */
   0.217,
 
   /* Expression: 0
-   * Referenced by: '<S7>/Saturation'
-   */
-  0.0,
-
-  /* Expression: 0
-   * Referenced by: '<S7>/Saturation1'
-   */
-  0.0,
-
-  /* Expression: 0
-   * Referenced by: '<S7>/Saturation2'
-   */
-  0.0,
-
-  /* Expression: 0
-   * Referenced by: '<S7>/Saturation3'
+   * Referenced by: '<S6>/Constant'
    */
   0.0,
 
   /* Expression: 1
-   * Referenced by: '<S7>/Constant'
+   * Referenced by: '<S13>/car_trq_rr'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_rl'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_fr'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_fl'
+   */
+  1.0,
+
+  /* Expression: 550
+   * Referenced by: '<S13>/Vdc'
+   */
+  550.0,
+
+  /* Expression: 15
+   * Referenced by: '<S13>/I_max'
+   */
+  15.0,
+
+  /* Expression: 0.95
+   * Referenced by: '<S13>/Gain'
+   */
+  0.95,
+
+  /* Expression: 1.3
+   * Referenced by: '<S12>/X2'
+   */
+  1.3,
+
+  /* Expression: 1.3
+   * Referenced by: '<S12>/X1'
+   */
+  1.3,
+
+  /* Expression: -1
+   * Referenced by: '<S6>/Gain1'
+   */
+  -1.0,
+
+  /* Expression: -1
+   * Referenced by: '<S6>/Gain'
+   */
+  -1.0,
+
+  /* Expression: 0
+   * Referenced by: '<S6>/Switch1'
+   */
+  0.0,
+
+  /* Expression: 1
+   * Referenced by: '<S9>/Constant'
    */
   1.0,
 
   /* Expression: 0
-   * Referenced by: '<S7>/Constant1'
+   * Referenced by: '<S9>/Constant1'
    */
   0.0,
 
-  /* Expression: 0
+  /* Expression: 1
    * Referenced by: '<S2>/acc_pedal'
    */
-  0.0,
+  1.0,
 
   /* Expression: 0
-   * Referenced by: '<S8>/Constant'
+   * Referenced by: '<S10>/Constant'
    */
   0.0,
 
   /* Expression: 1/4
-   * Referenced by: '<S6>/Gain'
+   * Referenced by: '<S8>/Gain'
    */
   0.25,
 
   /* Expression: inf
-   * Referenced by: '<S6>/Saturation'
+   * Referenced by: '<S8>/Saturation'
    */
   0.0,
 
   /* Expression: 0
-   * Referenced by: '<S6>/Saturation'
+   * Referenced by: '<S8>/Saturation'
    */
   0.0,
 
-  /* Expression: 1
+  /* Expression: 200
    * Referenced by: '<S2>/whl_speed_fl'
    */
-  1.0,
+  200.0,
 
-  /* Expression: 0
+  /* Expression: 200
    * Referenced by: '<S2>/whl_speed_fr'
    */
-  0.0,
+  200.0,
 
-  /* Expression: 0
+  /* Expression: 200
    * Referenced by: '<S2>/whl_speed_rl'
    */
-  0.0,
+  200.0,
 
-  /* Expression: 0
+  /* Expression: 200
    * Referenced by: '<S2>/whl_speed_rr'
    */
-  0.0,
+  200.0,
 
   /* Expression: 1/4
-   * Referenced by: '<S5>/Gain'
+   * Referenced by: '<S7>/Gain'
    */
   0.25,
 
   /* Expression: 0
-   * Referenced by: '<S7>/Switch'
+   * Referenced by: '<S6>/Switch'
    */
   0.0,
 
@@ -246,50 +317,60 @@ P_tv_code_T tv_code_P = {
    */
   0.0,
 
-  /* Expression: 0
+  /* Expression: 2
    * Referenced by: '<S2>/delta'
    */
-  0.0,
+  2.0,
 
   /* Expression: 1
-   * Referenced by: '<S4>/Constant'
+   * Referenced by: '<S5>/Constant'
    */
   1.0,
 
   /* Expression: inf
-   * Referenced by: '<S4>/Saturation1'
+   * Referenced by: '<S5>/Saturation1'
    */
   0.0,
 
   /* Expression: 0.3
-   * Referenced by: '<S4>/Saturation1'
+   * Referenced by: '<S5>/Saturation1'
    */
   0.3,
 
   /* Expression: 6
-   * Referenced by: '<S4>/saturation'
+   * Referenced by: '<S5>/Saturation'
    */
   6.0,
 
   /* Expression: -6
-   * Referenced by: '<S4>/saturation'
+   * Referenced by: '<S5>/Saturation'
    */
   -6.0,
 
-  /* Expression: 1
-   * Referenced by: '<S4>/yaw_rate_ref'
-   */
-  1.0,
-
   /* Expression: 0
-   * Referenced by: '<S9>/Integrator'
+   * Referenced by: '<S11>/Integrator'
    */
   0.0,
 
-  /* Expression: 2
-   * Referenced by: '<S3>/Switch'
+  /* Expression: 3
+   * Referenced by: '<S3>/speed_switch'
    */
-  2.0,
+  3.0,
+
+  /* Expression: 550
+   * Referenced by: '<S3>/batt_curr'
+   */
+  550.0,
+
+  /* Expression: 1/100
+   * Referenced by: '<S4>/Gain11'
+   */
+  0.01,
+
+  /* Expression: 10
+   * Referenced by: '<S3>/power_limiter_switch'
+   */
+  10.0,
 
   /* Expression: 1
    * Referenced by: '<Root>/trq_fl'
@@ -309,7 +390,12 @@ P_tv_code_T tv_code_P = {
   /* Expression: 1
    * Referenced by: '<Root>/trq_rr'
    */
-  1.0
+  1.0,
+
+  /* Computed Parameter: regenerative_braking_switch_Cur
+   * Referenced by: '<S6>/regenerative_braking_switch'
+   */
+  1U
 };
 
 /*
