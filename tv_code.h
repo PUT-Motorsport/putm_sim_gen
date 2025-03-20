@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.30
+ * Model version                  : 1.31
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Wed Feb 26 15:34:24 2025
+ * C/C++ source code generated on : Thu Mar 20 15:57:03 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -77,8 +77,7 @@ typedef struct {
   real_T Product1;                     /* '<S10>/Product1' */
   real_T Saturation[4];                /* '<S8>/Saturation' */
   real_T Gain1;                        /* '<S7>/Gain1' */
-  real_T Switch;                       /* '<S6>/Switch' */
-  real_T tt_switch;                    /* '<S9>/tt_switch' */
+  real_T TransferFcn;                  /* '<S6>/Transfer Fcn' */
   real_T Gain1_o;                      /* '<S18>/Gain1' */
   real_T DotProduct;                   /* '<S11>/Dot Product' */
   real_T Sum1;                         /* '<S11>/Sum1' */
@@ -86,32 +85,31 @@ typedef struct {
   real_T Gain1_j;                      /* '<S21>/Gain1' */
   real_T Gain1_p;                      /* '<S20>/Gain1' */
   real_T speed_switch[4];              /* '<S3>/speed_switch' */
-  real_T est_batt_current;             /* '<S4>/Sum1' */
+  real_T est_bat_current;              /* '<S4>/est_bat_current' */
   real_T trq_fl;                       /* '<Root>/trq_fl' */
   real_T trq_fr;                       /* '<Root>/trq_fr' */
   real_T trq_rl;                       /* '<Root>/trq_rl' */
   real_T trq_rr;                       /* '<Root>/trq_rr' */
   real_T DotProduct1;                  /* '<S11>/Dot Product1' */
+  real_T Gain1_e;                      /* '<S6>/Gain1' */
   real_T DotProduct_i;                 /* '<S9>/Dot Product' */
   real_T DotProduct1_f;                /* '<S9>/Dot Product1' */
   real_T DotProduct2;                  /* '<S9>/Dot Product2' */
   real_T DotProduct3;                  /* '<S9>/Dot Product3' */
-  real_T Gain;                         /* '<S6>/Gain' */
   real_T regenerative_braking_switch;  /* '<S6>/regenerative_braking_switch' */
-  real_T Gain1_e;                      /* '<S6>/Gain1' */
+  real_T Gain;                         /* '<S6>/Gain' */
   real_T Product[4];                   /* '<S4>/Product' */
   real_T DotProduct_n;                 /* '<S13>/Dot Product' */
+  real_T tt_switch;                    /* '<S9>/tt_switch' */
   real_T Divide;                       /* '<S4>/Divide' */
   real_T power_limiter_switch[4];      /* '<S3>/power_limiter_switch' */
-  real_T Divide_g;                     /* '<S13>/Divide' */
-  real_T Gain11;                       /* '<S4>/Gain11' */
-  real_T Gain1_a;                      /* '<S12>/Gain1' */
-  real_T Sum;                          /* '<S11>/Sum' */
+  real_T Gain_i;                       /* '<S20>/Gain' */
+  real_T current_change;               /* '<S4>/current_change' */
   real_T Saturation3;                  /* '<S9>/Saturation3' */
-  real_T MaxofElements;                /* '<S6>/Max of Elements' */
-  real_T Gain_d;                       /* '<S17>/Gain' */
+  real_T Divide_g;                     /* '<S13>/Divide' */
   real_T Saturation2;                  /* '<S9>/Saturation2' */
-  real_T Gain2;                        /* '<S17>/Gain2' */
+  real_T Max;                          /* '<S6>/Max' */
+  real_T Add;                          /* '<S13>/Add' */
   B_ax_filter_tv_code_T yaw_rate_filter;/* '<S2>/ax_filter' */
   B_ax_filter_tv_code_T ay_filter;     /* '<S2>/ax_filter' */
   B_ax_filter_tv_code_T ax_filter;     /* '<S2>/ax_filter' */
@@ -130,16 +128,19 @@ typedef struct {
 
 /* Continuous states (default storage) */
 typedef struct {
+  real_T TransferFcn_CSTATE;           /* '<S6>/Transfer Fcn' */
   real_T Integrator_CSTATE;            /* '<S11>/Integrator' */
 } X_tv_code_T;
 
 /* State derivatives (default storage) */
 typedef struct {
+  real_T TransferFcn_CSTATE;           /* '<S6>/Transfer Fcn' */
   real_T Integrator_CSTATE;            /* '<S11>/Integrator' */
 } XDot_tv_code_T;
 
 /* State disabled  */
 typedef struct {
+  boolean_T TransferFcn_CSTATE;        /* '<S6>/Transfer Fcn' */
   boolean_T Integrator_CSTATE;         /* '<S11>/Integrator' */
 } XDis_tv_code_T;
 
@@ -277,55 +278,19 @@ struct P_tv_code_T_ {
                                         *   '<S20>/Gain'
                                         *   '<S21>/Gain'
                                         */
-  real_T Constant_Value;               /* Expression: 0
-                                        * Referenced by: '<S6>/Constant'
-                                        */
-  real_T car_trq_rr_Value;             /* Expression: 1
-                                        * Referenced by: '<S13>/car_trq_rr'
-                                        */
-  real_T car_trq_rl_Value;             /* Expression: 1
-                                        * Referenced by: '<S13>/car_trq_rl'
-                                        */
-  real_T car_trq_fr_Value;             /* Expression: 1
-                                        * Referenced by: '<S13>/car_trq_fr'
-                                        */
-  real_T car_trq_fl_Value;             /* Expression: 1
-                                        * Referenced by: '<S13>/car_trq_fl'
-                                        */
-  real_T Vdc_Value;                    /* Expression: 550
-                                        * Referenced by: '<S13>/Vdc'
-                                        */
-  real_T I_max_Value;                  /* Expression: 15
-                                        * Referenced by: '<S13>/I_max'
-                                        */
-  real_T Gain_Gain;                    /* Expression: 0.95
-                                        * Referenced by: '<S13>/Gain'
-                                        */
-  real_T X2_Gain;                      /* Expression: 1.3
-                                        * Referenced by: '<S12>/X2'
-                                        */
-  real_T X1_Gain;                      /* Expression: 1.3
-                                        * Referenced by: '<S12>/X1'
-                                        */
-  real_T Gain1_Gain;                   /* Expression: -1
-                                        * Referenced by: '<S6>/Gain1'
-                                        */
-  real_T Gain_Gain_l;                  /* Expression: -1
+  real_T Gain_Gain;                    /* Expression: -1
                                         * Referenced by: '<S6>/Gain'
                                         */
   real_T Switch1_Threshold;            /* Expression: 0
                                         * Referenced by: '<S6>/Switch1'
                                         */
-  real_T Constant_Value_j;             /* Expression: 1
-                                        * Referenced by: '<S9>/Constant'
-                                        */
-  real_T Constant1_Value;              /* Expression: 0
-                                        * Referenced by: '<S9>/Constant1'
+  real_T Switch_Threshold;             /* Expression: 0
+                                        * Referenced by: '<S6>/Switch'
                                         */
   real_T acc_pedal_Value;              /* Expression: 1
                                         * Referenced by: '<S2>/acc_pedal'
                                         */
-  real_T Constant_Value_c;             /* Expression: 0
+  real_T Constant_Value;               /* Expression: 0
                                         * Referenced by: '<S10>/Constant'
                                         */
   real_T Gain_Gain_f;                  /* Expression: 1/4
@@ -352,8 +317,20 @@ struct P_tv_code_T_ {
   real_T Gain_Gain_m;                  /* Expression: 1/4
                                         * Referenced by: '<S7>/Gain'
                                         */
-  real_T Switch_Threshold;             /* Expression: 0
-                                        * Referenced by: '<S6>/Switch'
+  real_T Constant_Value_j;             /* Expression: 1
+                                        * Referenced by: '<S9>/Constant'
+                                        */
+  real_T Constant_Value_g;             /* Expression: 0
+                                        * Referenced by: '<S6>/Constant'
+                                        */
+  real_T TransferFcn_A;                /* Computed Parameter: TransferFcn_A
+                                        * Referenced by: '<S6>/Transfer Fcn'
+                                        */
+  real_T TransferFcn_C;                /* Computed Parameter: TransferFcn_C
+                                        * Referenced by: '<S6>/Transfer Fcn'
+                                        */
+  real_T Constant1_Value;              /* Expression: 0
+                                        * Referenced by: '<S9>/Constant1'
                                         */
   real_T ax_Value;                     /* Expression: 0
                                         * Referenced by: '<S2>/ax'
@@ -391,8 +368,8 @@ struct P_tv_code_T_ {
   real_T batt_curr_Value;              /* Expression: 550
                                         * Referenced by: '<S3>/batt_curr'
                                         */
-  real_T Gain11_Gain;                  /* Expression: 1/100
-                                        * Referenced by: '<S4>/Gain11'
+  real_T current_change_Gain;          /* Expression: 1/100
+                                        * Referenced by: '<S4>/current_change'
                                         */
   real_T power_limiter_switch_Threshold;/* Expression: 10
                                          * Referenced by: '<S3>/power_limiter_switch'
@@ -408,6 +385,39 @@ struct P_tv_code_T_ {
                                         */
   real_T trq_rr_Gain;                  /* Expression: 1
                                         * Referenced by: '<Root>/trq_rr'
+                                        */
+  real_T X1_Gain;                      /* Expression: 1.3
+                                        * Referenced by: '<S12>/X1'
+                                        */
+  real_T X2_Gain;                      /* Expression: 1.3
+                                        * Referenced by: '<S12>/X2'
+                                        */
+  real_T I_max_Value;                  /* Expression: 15
+                                        * Referenced by: '<S13>/I_max'
+                                        */
+  real_T Vdc_Value;                    /* Expression: 550
+                                        * Referenced by: '<S13>/Vdc'
+                                        */
+  real_T Gain_Gain_mp;                 /* Expression: 0.95
+                                        * Referenced by: '<S13>/Gain'
+                                        */
+  real_T car_trq_fl_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_fl'
+                                        */
+  real_T car_trq_fr_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_fr'
+                                        */
+  real_T car_trq_rl_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_rl'
+                                        */
+  real_T car_trq_rr_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_rr'
+                                        */
+  real_T tt_max_Value;                 /* Expression: 20
+                                        * Referenced by: '<S6>/tt_max'
+                                        */
+  real_T Gain1_Gain;                   /* Expression: -1
+                                        * Referenced by: '<S6>/Gain1'
                                         */
   uint8_T regenerative_braking_switch_Cur;
                           /* Computed Parameter: regenerative_braking_switch_Cur
@@ -427,8 +437,8 @@ struct tag_RTM_tv_code_T {
   boolean_T zCCacheNeedsReset;
   boolean_T derivCacheNeedsReset;
   boolean_T CTOutputIncnstWithState;
-  real_T odeY[1];
-  real_T odeF[4][1];
+  real_T odeY[2];
+  real_T odeF[4][2];
   ODE4_IntgData intgData;
 
   /*

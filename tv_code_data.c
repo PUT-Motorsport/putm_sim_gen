@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.30
+ * Model version                  : 1.31
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Wed Feb 26 15:34:24 2025
+ * C/C++ source code generated on : Thu Mar 20 15:57:03 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -148,7 +148,7 @@ P_tv_code_T tv_code_P = {
    *   '<S20>/Gain1'
    *   '<S21>/Gain1'
    */
-  220.0,
+  226.0,
 
   /* Variable: max_moment
    * Referenced by:
@@ -172,61 +172,6 @@ P_tv_code_T tv_code_P = {
    */
   0.217,
 
-  /* Expression: 0
-   * Referenced by: '<S6>/Constant'
-   */
-  0.0,
-
-  /* Expression: 1
-   * Referenced by: '<S13>/car_trq_rr'
-   */
-  1.0,
-
-  /* Expression: 1
-   * Referenced by: '<S13>/car_trq_rl'
-   */
-  1.0,
-
-  /* Expression: 1
-   * Referenced by: '<S13>/car_trq_fr'
-   */
-  1.0,
-
-  /* Expression: 1
-   * Referenced by: '<S13>/car_trq_fl'
-   */
-  1.0,
-
-  /* Expression: 550
-   * Referenced by: '<S13>/Vdc'
-   */
-  550.0,
-
-  /* Expression: 15
-   * Referenced by: '<S13>/I_max'
-   */
-  15.0,
-
-  /* Expression: 0.95
-   * Referenced by: '<S13>/Gain'
-   */
-  0.95,
-
-  /* Expression: 1.3
-   * Referenced by: '<S12>/X2'
-   */
-  1.3,
-
-  /* Expression: 1.3
-   * Referenced by: '<S12>/X1'
-   */
-  1.3,
-
-  /* Expression: -1
-   * Referenced by: '<S6>/Gain1'
-   */
-  -1.0,
-
   /* Expression: -1
    * Referenced by: '<S6>/Gain'
    */
@@ -237,13 +182,8 @@ P_tv_code_T tv_code_P = {
    */
   0.0,
 
-  /* Expression: 1
-   * Referenced by: '<S9>/Constant'
-   */
-  1.0,
-
   /* Expression: 0
-   * Referenced by: '<S9>/Constant1'
+   * Referenced by: '<S6>/Switch'
    */
   0.0,
 
@@ -297,8 +237,28 @@ P_tv_code_T tv_code_P = {
    */
   0.25,
 
+  /* Expression: 1
+   * Referenced by: '<S9>/Constant'
+   */
+  1.0,
+
   /* Expression: 0
-   * Referenced by: '<S6>/Switch'
+   * Referenced by: '<S6>/Constant'
+   */
+  0.0,
+
+  /* Computed Parameter: TransferFcn_A
+   * Referenced by: '<S6>/Transfer Fcn'
+   */
+  -4.0,
+
+  /* Computed Parameter: TransferFcn_C
+   * Referenced by: '<S6>/Transfer Fcn'
+   */
+  2.0,
+
+  /* Expression: 0
+   * Referenced by: '<S9>/Constant1'
    */
   0.0,
 
@@ -360,10 +320,10 @@ P_tv_code_T tv_code_P = {
   /* Expression: 550
    * Referenced by: '<S3>/batt_curr'
    */
-  0.0,
+  550.0,
 
   /* Expression: 1/100
-   * Referenced by: '<S4>/Gain11'
+   * Referenced by: '<S4>/current_change'
    */
   0.01,
 
@@ -391,6 +351,61 @@ P_tv_code_T tv_code_P = {
    * Referenced by: '<Root>/trq_rr'
    */
   1.0,
+
+  /* Expression: 1.3
+   * Referenced by: '<S12>/X1'
+   */
+  1.3,
+
+  /* Expression: 1.3
+   * Referenced by: '<S12>/X2'
+   */
+  1.3,
+
+  /* Expression: 15
+   * Referenced by: '<S13>/I_max'
+   */
+  15.0,
+
+  /* Expression: 550
+   * Referenced by: '<S13>/Vdc'
+   */
+  550.0,
+
+  /* Expression: 0.95
+   * Referenced by: '<S13>/Gain'
+   */
+  0.95,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_fl'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_fr'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_rl'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S13>/car_trq_rr'
+   */
+  1.0,
+
+  /* Expression: 20
+   * Referenced by: '<S6>/tt_max'
+   */
+  20.0,
+
+  /* Expression: -1
+   * Referenced by: '<S6>/Gain1'
+   */
+  -1.0,
 
   /* Computed Parameter: regenerative_braking_switch_Cur
    * Referenced by: '<S6>/regenerative_braking_switch'
