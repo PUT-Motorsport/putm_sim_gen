@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.10
+ * Model version                  : 1.22
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sat Oct  5 19:41:48 2024
+ * C/C++ source code generated on : Thu Nov 28 13:21:00 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include <stdio.h>            /* This example main program uses printf/fflush */
 #include "tv_code.h"                   /* Model header file */
-#include "read.h"
+
 /*
  * Associating rt_OneStep with a real-time clock or interrupt service routine
  * is what makes the generated code "real-time".  The function rt_OneStep is
@@ -32,8 +32,6 @@
  * your application needs.  This example simply sets an error status in the
  * real-time model and returns from rt_OneStep.
  */
-
-
 void rt_OneStep(void);
 void rt_OneStep(void)
 {
@@ -54,13 +52,7 @@ void rt_OneStep(void)
   /* Set model inputs here */
 
   /* Step the model */
-  read_inputs();
-  tv_code_P.delta_Value *=3.14/180;
   tv_code_step();
-    printf("Front left %f\n",tv_code_B.trq_fl);
-    printf("Front right %f\n",tv_code_B.trq_fr);
-    printf("Rear left %f\n",tv_code_B.trq_rl);
-    printf("Rear right %f\n",tv_code_B.trq_rr);
 
   /* Get model outputs here */
 
@@ -92,9 +84,7 @@ int_T main(int_T argc, const char *argv[])
    */
   while ((rtmGetErrorStatus(tv_code_M) == (NULL)) && !rtmGetStopRequested
          (tv_code_M)) {
-    
     rt_OneStep();
-    
   }
 
   /* Terminate model */
