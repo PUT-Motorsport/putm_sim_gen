@@ -360,7 +360,7 @@ P_tv_code_T tv_code_P = {
   /* Expression: 550
    * Referenced by: '<S3>/batt_curr'
    */
-  550.0,
+  0.0,
 
   /* Expression: 1/100
    * Referenced by: '<S4>/Gain11'
