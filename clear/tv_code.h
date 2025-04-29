@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.12
+ * Model version                  : 1.31
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Sat Oct  5 19:47:47 2024
+ * C/C++ source code generated on : Thu Mar 20 15:57:03 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -28,8 +28,8 @@
 
 #include "tv_code_types.h"
 #include "rtGetInf.h"
-#include <string.h>
 #include "rt_nonfinite.h"
+#include <string.h>
 
 /* Macros for accessing real-time model data structure */
 #ifndef rtmGetErrorStatus
@@ -60,48 +60,88 @@
 #define rtmGetTPtr(rtm)                ((rtm)->Timing.t)
 #endif
 
+/* Block signals for system '<S2>/ax_filter' */
+typedef struct {
+  real_T ax_filter;                    /* '<S2>/ax_filter' */
+} B_ax_filter_tv_code_T;
+
+/* Block states (default storage) for system '<S2>/ax_filter' */
+typedef struct {
+  dsp_simulink_LowpassFilter_tv_T obj; /* '<S2>/ax_filter' */
+  boolean_T objisempty;                /* '<S2>/ax_filter' */
+  boolean_T isInitialized;             /* '<S2>/ax_filter' */
+} DW_ax_filter_tv_code_T;
+
 /* Block signals (default storage) */
 typedef struct {
-  real_T Product1;                     /* '<S8>/Product1' */
-  real_T Saturation[4];                /* '<S6>/Saturation' */
-  real_T Gain1;                        /* '<S5>/Gain1' */
-  real_T Switch;                       /* '<S7>/Switch' */
-  real_T Gain1_o;                      /* '<S14>/Gain1' */
-  real_T DotProduct;                   /* '<S9>/Dot Product' */
-  real_T Integrator;                   /* '<S9>/Integrator' */
-  real_T Gain1_l;                      /* '<S15>/Gain1' */
-  real_T Gain1_lh;                     /* '<S17>/Gain1' */
-  real_T Gain1_j;                      /* '<S16>/Gain1' */
+  real_T Product1;                     /* '<S10>/Product1' */
+  real_T Saturation[4];                /* '<S8>/Saturation' */
+  real_T Gain1;                        /* '<S7>/Gain1' */
+  real_T TransferFcn;                  /* '<S6>/Transfer Fcn' */
+  real_T Gain1_o;                      /* '<S18>/Gain1' */
+  real_T DotProduct;                   /* '<S11>/Dot Product' */
+  real_T Sum1;                         /* '<S11>/Sum1' */
+  real_T Gain1_m;                      /* '<S19>/Gain1' */
+  real_T Gain1_j;                      /* '<S21>/Gain1' */
+  real_T Gain1_p;                      /* '<S20>/Gain1' */
+  real_T speed_switch[4];              /* '<S3>/speed_switch' */
+  real_T est_bat_current;              /* '<S4>/est_bat_current' */
   real_T trq_fl;                       /* '<Root>/trq_fl' */
   real_T trq_fr;                       /* '<Root>/trq_fr' */
   real_T trq_rl;                       /* '<Root>/trq_rl' */
   real_T trq_rr;                       /* '<Root>/trq_rr' */
-  real_T DotProduct1;                  /* '<S9>/Dot Product1' */
-  real_T DotProduct_a;                 /* '<S7>/Dot Product' */
-  real_T DotProduct1_f;                /* '<S7>/Dot Product1' */
-  real_T DotProduct2;                  /* '<S7>/Dot Product2' */
-  real_T DotProduct3;                  /* '<S7>/Dot Product3' */
-  real_T Switch_b[4];                  /* '<S3>/Switch' */
-  real_T Sum;                          /* '<S9>/Sum' */
-  real_T Saturation3;                  /* '<S7>/Saturation3' */
-  real_T Gain;                         /* '<S13>/Gain' */
-  real_T Saturation2;                  /* '<S7>/Saturation2' */
-  real_T Gain2;                        /* '<S13>/Gain2' */
+  real_T DotProduct1;                  /* '<S11>/Dot Product1' */
+  real_T Gain1_e;                      /* '<S6>/Gain1' */
+  real_T DotProduct_i;                 /* '<S9>/Dot Product' */
+  real_T DotProduct1_f;                /* '<S9>/Dot Product1' */
+  real_T DotProduct2;                  /* '<S9>/Dot Product2' */
+  real_T DotProduct3;                  /* '<S9>/Dot Product3' */
+  real_T regenerative_braking_switch;  /* '<S6>/regenerative_braking_switch' */
+  real_T Gain;                         /* '<S6>/Gain' */
+  real_T Product[4];                   /* '<S4>/Product' */
+  real_T DotProduct_n;                 /* '<S13>/Dot Product' */
+  real_T tt_switch;                    /* '<S9>/tt_switch' */
+  real_T Divide;                       /* '<S4>/Divide' */
+  real_T power_limiter_switch[4];      /* '<S3>/power_limiter_switch' */
+  real_T Gain_i;                       /* '<S20>/Gain' */
+  real_T current_change;               /* '<S4>/current_change' */
+  real_T Saturation3;                  /* '<S9>/Saturation3' */
+  real_T Divide_g;                     /* '<S13>/Divide' */
+  real_T Saturation2;                  /* '<S9>/Saturation2' */
+  real_T Max;                          /* '<S6>/Max' */
+  real_T Add;                          /* '<S13>/Add' */
+  B_ax_filter_tv_code_T yaw_rate_filter;/* '<S2>/ax_filter' */
+  B_ax_filter_tv_code_T ay_filter;     /* '<S2>/ax_filter' */
+  B_ax_filter_tv_code_T ax_filter;     /* '<S2>/ax_filter' */
 } B_tv_code_T;
+
+/* Block states (default storage) for system '<Root>' */
+typedef struct {
+  real_T TimeStampA;                   /* '<S4>/Derivative' */
+  real_T LastUAtTimeA;                 /* '<S4>/Derivative' */
+  real_T TimeStampB;                   /* '<S4>/Derivative' */
+  real_T LastUAtTimeB;                 /* '<S4>/Derivative' */
+  DW_ax_filter_tv_code_T yaw_rate_filter;/* '<S2>/ax_filter' */
+  DW_ax_filter_tv_code_T ay_filter;    /* '<S2>/ax_filter' */
+  DW_ax_filter_tv_code_T ax_filter;    /* '<S2>/ax_filter' */
+} DW_tv_code_T;
 
 /* Continuous states (default storage) */
 typedef struct {
-  real_T Integrator_CSTATE;            /* '<S9>/Integrator' */
+  real_T TransferFcn_CSTATE;           /* '<S6>/Transfer Fcn' */
+  real_T Integrator_CSTATE;            /* '<S11>/Integrator' */
 } X_tv_code_T;
 
 /* State derivatives (default storage) */
 typedef struct {
-  real_T Integrator_CSTATE;            /* '<S9>/Integrator' */
+  real_T TransferFcn_CSTATE;           /* '<S6>/Transfer Fcn' */
+  real_T Integrator_CSTATE;            /* '<S11>/Integrator' */
 } XDot_tv_code_T;
 
 /* State disabled  */
 typedef struct {
-  boolean_T Integrator_CSTATE;         /* '<S9>/Integrator' */
+  boolean_T TransferFcn_CSTATE;        /* '<S6>/Transfer Fcn' */
+  boolean_T Integrator_CSTATE;         /* '<S11>/Integrator' */
 } XDis_tv_code_T;
 
 #ifndef ODE4_INTG
@@ -118,15 +158,17 @@ typedef struct {
 /* Parameters (default storage) */
 struct P_tv_code_T_ {
   real_T Ku;                           /* Variable: Ku
-                                        * Referenced by: '<S4>/Desired Understeer Gradient'
+                                        * Referenced by: '<S5>/Desired Understeer Gradient'
                                         */
   real_T L;                            /* Variable: L
                                         * Referenced by:
-                                        *   '<S4>/axlebase'
-                                        *   '<S10>/Gain'
-                                        *   '<S11>/Gain'
-                                        *   '<S12>/Gain'
-                                        *   '<S13>/Gain'
+                                        *   '<S5>/axlebase'
+                                        *   '<S12>/Z1'
+                                        *   '<S12>/Z2'
+                                        *   '<S14>/Gain'
+                                        *   '<S15>/Gain'
+                                        *   '<S16>/Gain'
+                                        *   '<S17>/Gain'
                                         */
   real_T Mz_I;                         /* Variable: Mz_I
                                         * Referenced by: '<S2>/Mz Integative Gain'
@@ -134,172 +176,204 @@ struct P_tv_code_T_ {
   real_T Mz_p;                         /* Variable: Mz_p
                                         * Referenced by: '<S2>/Mz Proportional Gain'
                                         */
+  real_T P_max;                        /* Variable: P_max
+                                        * Referenced by:
+                                        *   '<S4>/Constant'
+                                        *   '<S4>/Switch'
+                                        */
+  real_T batt_voltage;                 /* Variable: batt_voltage
+                                        * Referenced by:
+                                        *   '<S4>/Constant'
+                                        *   '<S4>/Switch'
+                                        */
   real_T drive_ratio;                  /* Variable: drive_ratio
                                         * Referenced by:
-                                        *   '<S7>/Saturation'
-                                        *   '<S7>/Saturation1'
-                                        *   '<S7>/Saturation2'
-                                        *   '<S7>/Saturation3'
-                                        *   '<S8>/Constant1'
+                                        *   '<S9>/Saturation'
+                                        *   '<S9>/Saturation1'
+                                        *   '<S9>/Saturation2'
+                                        *   '<S9>/Saturation3'
+                                        *   '<S10>/Constant1'
+                                        *   '<S12>/Gain'
+                                        *   '<S12>/Gain1'
                                         */
   real_T g;                            /* Variable: g
                                         * Referenced by:
-                                        *   '<S10>/Constant'
-                                        *   '<S11>/Constant'
-                                        *   '<S12>/Constant'
-                                        *   '<S13>/Constant'
-                                        *   '<S14>/Gain1'
-                                        *   '<S15>/Gain1'
-                                        *   '<S16>/Gain1'
-                                        *   '<S17>/Gain1'
+                                        *   '<S12>/Z1'
+                                        *   '<S12>/Z2'
+                                        *   '<S14>/Constant'
+                                        *   '<S15>/Constant'
+                                        *   '<S16>/Constant'
+                                        *   '<S17>/Constant'
+                                        *   '<S18>/Gain1'
+                                        *   '<S19>/Gain1'
+                                        *   '<S20>/Gain1'
+                                        *   '<S21>/Gain1'
                                         */
   real_T h;                            /* Variable: h
                                         * Referenced by:
-                                        *   '<S10>/Gain1'
-                                        *   '<S10>/Gain2'
-                                        *   '<S11>/Gain1'
-                                        *   '<S11>/Gain2'
-                                        *   '<S12>/Gain1'
-                                        *   '<S12>/Gain2'
-                                        *   '<S13>/Gain1'
-                                        *   '<S13>/Gain2'
+                                        *   '<S14>/Gain1'
+                                        *   '<S14>/Gain2'
+                                        *   '<S15>/Gain1'
+                                        *   '<S15>/Gain2'
+                                        *   '<S16>/Gain1'
+                                        *   '<S16>/Gain2'
+                                        *   '<S17>/Gain1'
+                                        *   '<S17>/Gain2'
                                         */
   real_T lf;                           /* Variable: lf
                                         * Referenced by:
-                                        *   '<S12>/Constant'
-                                        *   '<S12>/Gain2'
-                                        *   '<S13>/Constant'
-                                        *   '<S13>/Gain2'
+                                        *   '<S12>/Z1'
+                                        *   '<S16>/Constant'
+                                        *   '<S16>/Gain2'
+                                        *   '<S17>/Constant'
+                                        *   '<S17>/Gain2'
                                         */
   real_T lr;                           /* Variable: lr
                                         * Referenced by:
-                                        *   '<S10>/Constant'
-                                        *   '<S10>/Gain2'
-                                        *   '<S11>/Constant'
-                                        *   '<S11>/Gain2'
+                                        *   '<S12>/Z2'
+                                        *   '<S14>/Constant'
+                                        *   '<S14>/Gain2'
+                                        *   '<S15>/Constant'
+                                        *   '<S15>/Gain2'
                                         */
   real_T ls;                           /* Variable: ls
                                         * Referenced by:
-                                        *   '<S10>/Gain2'
-                                        *   '<S11>/Gain2'
-                                        *   '<S12>/Gain2'
-                                        *   '<S13>/Gain2'
-                                        *   '<S14>/Gain'
-                                        *   '<S15>/Gain'
-                                        *   '<S16>/Gain'
-                                        *   '<S17>/Gain'
+                                        *   '<S14>/Gain2'
+                                        *   '<S15>/Gain2'
+                                        *   '<S16>/Gain2'
+                                        *   '<S17>/Gain2'
+                                        *   '<S18>/Gain'
+                                        *   '<S19>/Gain'
+                                        *   '<S20>/Gain'
+                                        *   '<S21>/Gain'
                                         */
   real_T m;                            /* Variable: m
                                         * Referenced by:
-                                        *   '<S10>/Gain'
-                                        *   '<S11>/Gain'
-                                        *   '<S12>/Gain'
-                                        *   '<S13>/Gain'
-                                        *   '<S14>/Gain1'
-                                        *   '<S15>/Gain1'
-                                        *   '<S16>/Gain1'
-                                        *   '<S17>/Gain1'
-                                        */
-  real_T max_moment;                   /* Variable: max_moment
-                                        * Referenced by:
-                                        *   '<S7>/Saturation'
-                                        *   '<S7>/Saturation1'
-                                        *   '<S7>/Saturation2'
-                                        *   '<S7>/Saturation3'
-                                        *   '<S8>/Constant1'
-                                        */
-  real_T rw;                           /* Variable: rw
-                                        * Referenced by:
-                                        *   '<S5>/Gain1'
+                                        *   '<S12>/Z1'
+                                        *   '<S12>/Z2'
                                         *   '<S14>/Gain'
                                         *   '<S15>/Gain'
                                         *   '<S16>/Gain'
                                         *   '<S17>/Gain'
+                                        *   '<S18>/Gain1'
+                                        *   '<S19>/Gain1'
+                                        *   '<S20>/Gain1'
+                                        *   '<S21>/Gain1'
                                         */
-  real_T Saturation_LowerSat;          /* Expression: 0
-                                        * Referenced by: '<S7>/Saturation'
+  real_T max_moment;                   /* Variable: max_moment
+                                        * Referenced by:
+                                        *   '<S9>/Saturation'
+                                        *   '<S9>/Saturation1'
+                                        *   '<S9>/Saturation2'
+                                        *   '<S9>/Saturation3'
+                                        *   '<S10>/Constant1'
                                         */
-  real_T Saturation1_LowerSat;         /* Expression: 0
-                                        * Referenced by: '<S7>/Saturation1'
+  real_T rw;                           /* Variable: rw
+                                        * Referenced by:
+                                        *   '<S7>/Gain1'
+                                        *   '<S12>/Ta'
+                                        *   '<S12>/Tr'
+                                        *   '<S18>/Gain'
+                                        *   '<S19>/Gain'
+                                        *   '<S20>/Gain'
+                                        *   '<S21>/Gain'
                                         */
-  real_T Saturation2_LowerSat;         /* Expression: 0
-                                        * Referenced by: '<S7>/Saturation2'
+  real_T Gain_Gain;                    /* Expression: -1
+                                        * Referenced by: '<S6>/Gain'
                                         */
-  real_T Saturation3_LowerSat;         /* Expression: 0
-                                        * Referenced by: '<S7>/Saturation3'
+  real_T Switch1_Threshold;            /* Expression: 0
+                                        * Referenced by: '<S6>/Switch1'
                                         */
-  real_T Constant_Value;               /* Expression: 1
-                                        * Referenced by: '<S7>/Constant'
-                                        */
-  real_T Constant1_Value;              /* Expression: -1
-                                        * Referenced by: '<S7>/Constant1'
+  real_T Switch_Threshold;             /* Expression: 0
+                                        * Referenced by: '<S6>/Switch'
                                         */
   real_T acc_pedal_Value;              /* Expression: 1
                                         * Referenced by: '<S2>/acc_pedal'
                                         */
-  real_T Constant_Value_o;             /* Expression: 0
-                                        * Referenced by: '<S8>/Constant'
+  real_T Constant_Value;               /* Expression: 0
+                                        * Referenced by: '<S10>/Constant'
                                         */
-  real_T Gain_Gain;                    /* Expression: 1/4
-                                        * Referenced by: '<S6>/Gain'
+  real_T Gain_Gain_f;                  /* Expression: 1/4
+                                        * Referenced by: '<S8>/Gain'
                                         */
   real_T Saturation_UpperSat;          /* Expression: inf
-                                        * Referenced by: '<S6>/Saturation'
+                                        * Referenced by: '<S8>/Saturation'
                                         */
-  real_T Saturation_LowerSat_e;        /* Expression: 0
-                                        * Referenced by: '<S6>/Saturation'
+  real_T Saturation_LowerSat;          /* Expression: 0
+                                        * Referenced by: '<S8>/Saturation'
                                         */
-  real_T whl_speed_fl_Value;           /* Expression: 1
+  real_T whl_speed_fl_Value;           /* Expression: 200
                                         * Referenced by: '<S2>/whl_speed_fl'
                                         */
-  real_T whl_speed_fr_Value;           /* Expression: 1
+  real_T whl_speed_fr_Value;           /* Expression: 200
                                         * Referenced by: '<S2>/whl_speed_fr'
                                         */
-  real_T whl_speed_rl_Value;           /* Expression: 1
+  real_T whl_speed_rl_Value;           /* Expression: 200
                                         * Referenced by: '<S2>/whl_speed_rl'
                                         */
-  real_T whl_speed_rr_Value;           /* Expression: 1
+  real_T whl_speed_rr_Value;           /* Expression: 200
                                         * Referenced by: '<S2>/whl_speed_rr'
                                         */
-  real_T Gain_Gain_j;                  /* Expression: 1/4
-                                        * Referenced by: '<S5>/Gain'
+  real_T Gain_Gain_m;                  /* Expression: 1/4
+                                        * Referenced by: '<S7>/Gain'
                                         */
-  real_T Switch_Threshold;             /* Expression: 0
-                                        * Referenced by: '<S7>/Switch'
+  real_T Constant_Value_j;             /* Expression: 1
+                                        * Referenced by: '<S9>/Constant'
                                         */
-  real_T ax_Value;                     /* Expression: 1
+  real_T Constant_Value_g;             /* Expression: 0
+                                        * Referenced by: '<S6>/Constant'
+                                        */
+  real_T TransferFcn_A;                /* Computed Parameter: TransferFcn_A
+                                        * Referenced by: '<S6>/Transfer Fcn'
+                                        */
+  real_T TransferFcn_C;                /* Computed Parameter: TransferFcn_C
+                                        * Referenced by: '<S6>/Transfer Fcn'
+                                        */
+  real_T Constant1_Value;              /* Expression: 0
+                                        * Referenced by: '<S9>/Constant1'
+                                        */
+  real_T ax_Value;                     /* Expression: 0
                                         * Referenced by: '<S2>/ax'
                                         */
-  real_T ay_Value;                     /* Expression: 1
+  real_T ay_Value;                     /* Expression: 0
                                         * Referenced by: '<S2>/ay'
                                         */
-  real_T yaw_rate_Value;               /* Expression: 1
+  real_T yaw_rate_Value;               /* Expression: 0
                                         * Referenced by: '<S2>/yaw_rate'
                                         */
-  real_T delta_Value;                  /* Expression: 1
+  real_T delta_Value;                  /* Expression: 2
                                         * Referenced by: '<S2>/delta'
                                         */
-  real_T Constant_Value_c;             /* Expression: 1
-                                        * Referenced by: '<S4>/Constant'
+  real_T Constant_Value_o;             /* Expression: 1
+                                        * Referenced by: '<S5>/Constant'
                                         */
   real_T Saturation1_UpperSat;         /* Expression: inf
-                                        * Referenced by: '<S4>/Saturation1'
+                                        * Referenced by: '<S5>/Saturation1'
                                         */
-  real_T Saturation1_LowerSat_j;       /* Expression: 0.3
-                                        * Referenced by: '<S4>/Saturation1'
+  real_T Saturation1_LowerSat;         /* Expression: 0.3
+                                        * Referenced by: '<S5>/Saturation1'
                                         */
-  real_T Saturation_UpperSat_h;        /* Expression: 6
-                                        * Referenced by: '<S4>/Saturation'
+  real_T Saturation_UpperSat_b;        /* Expression: 6
+                                        * Referenced by: '<S5>/Saturation'
                                         */
-  real_T Saturation_LowerSat_h;        /* Expression: -6
-                                        * Referenced by: '<S4>/Saturation'
+  real_T Saturation_LowerSat_i;        /* Expression: -6
+                                        * Referenced by: '<S5>/Saturation'
                                         */
   real_T Integrator_IC;                /* Expression: 0
-                                        * Referenced by: '<S9>/Integrator'
+                                        * Referenced by: '<S11>/Integrator'
                                         */
-  real_T Switch_Threshold_i;           /* Expression: 0
-                                        * Referenced by: '<S3>/Switch'
+  real_T speed_switch_Threshold;       /* Expression: 3
+                                        * Referenced by: '<S3>/speed_switch'
                                         */
+  real_T batt_curr_Value;              /* Expression: 550
+                                        * Referenced by: '<S3>/batt_curr'
+                                        */
+  real_T current_change_Gain;          /* Expression: 1/100
+                                        * Referenced by: '<S4>/current_change'
+                                        */
+  real_T power_limiter_switch_Threshold;/* Expression: 10
+                                         * Referenced by: '<S3>/power_limiter_switch'
+                                         */
   real_T trq_fl_Gain;                  /* Expression: 1
                                         * Referenced by: '<Root>/trq_fl'
                                         */
@@ -312,6 +386,43 @@ struct P_tv_code_T_ {
   real_T trq_rr_Gain;                  /* Expression: 1
                                         * Referenced by: '<Root>/trq_rr'
                                         */
+  real_T X1_Gain;                      /* Expression: 1.3
+                                        * Referenced by: '<S12>/X1'
+                                        */
+  real_T X2_Gain;                      /* Expression: 1.3
+                                        * Referenced by: '<S12>/X2'
+                                        */
+  real_T I_max_Value;                  /* Expression: 15
+                                        * Referenced by: '<S13>/I_max'
+                                        */
+  real_T Vdc_Value;                    /* Expression: 550
+                                        * Referenced by: '<S13>/Vdc'
+                                        */
+  real_T Gain_Gain_mp;                 /* Expression: 0.95
+                                        * Referenced by: '<S13>/Gain'
+                                        */
+  real_T car_trq_fl_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_fl'
+                                        */
+  real_T car_trq_fr_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_fr'
+                                        */
+  real_T car_trq_rl_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_rl'
+                                        */
+  real_T car_trq_rr_Value;             /* Expression: 1
+                                        * Referenced by: '<S13>/car_trq_rr'
+                                        */
+  real_T tt_max_Value;                 /* Expression: 20
+                                        * Referenced by: '<S6>/tt_max'
+                                        */
+  real_T Gain1_Gain;                   /* Expression: -1
+                                        * Referenced by: '<S6>/Gain1'
+                                        */
+  uint8_T regenerative_braking_switch_Cur;
+                          /* Computed Parameter: regenerative_braking_switch_Cur
+                           * Referenced by: '<S6>/regenerative_braking_switch'
+                           */
 };
 
 /* Real-time Model Data Structure */
@@ -326,8 +437,8 @@ struct tag_RTM_tv_code_T {
   boolean_T zCCacheNeedsReset;
   boolean_T derivCacheNeedsReset;
   boolean_T CTOutputIncnstWithState;
-  real_T odeY[1];
-  real_T odeF[4][1];
+  real_T odeY[2];
+  real_T odeF[4][2];
   ODE4_IntgData intgData;
 
   /*
@@ -367,6 +478,9 @@ extern B_tv_code_T tv_code_B;
 /* Continuous states (default storage) */
 extern X_tv_code_T tv_code_X;
 
+/* Block states (default storage) */
+extern DW_tv_code_T tv_code_DW;
+
 /* Model entry point functions */
 extern void tv_code_initialize(void);
 extern void tv_code_step(void);
@@ -392,21 +506,25 @@ extern RT_MODEL_tv_code_T *const tv_code_M;
  * '<Root>' : 'tv_code'
  * '<S1>'   : 'tv_code/The Best TorqueVectoring'
  * '<S2>'   : 'tv_code/The Best TorqueVectoring/CarMaker_Inputs'
- * '<S3>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring'
- * '<S4>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Reference generator'
- * '<S5>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Speed estimaor'
- * '<S6>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Toque distibution NO Tv'
- * '<S7>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv'
- * '<S8>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Total Torque Request'
- * '<S9>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Upper Controller'
- * '<S10>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/Fzfl'
- * '<S11>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/Fzfr'
- * '<S12>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/Fzrl'
- * '<S13>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/Fzrr'
- * '<S14>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/T_FL'
- * '<S15>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/T_FR'
- * '<S16>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/T_FR1'
- * '<S17>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring/Torque distribution Tv/T_RL'
+ * '<S3>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1'
+ * '<S4>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Power limiter for car'
+ * '<S5>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Reference generator'
+ * '<S6>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Regenerative braking'
+ * '<S7>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Speed estimaor'
+ * '<S8>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Toque distibution NO Tv'
+ * '<S9>'   : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv'
+ * '<S10>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Total Torque Request'
+ * '<S11>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Upper Controller'
+ * '<S12>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Regenerative braking/Subsystem'
+ * '<S13>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Regenerative braking/Tmax'
+ * '<S14>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/Fzfl'
+ * '<S15>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/Fzfr'
+ * '<S16>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/Fzrl'
+ * '<S17>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/Fzrr'
+ * '<S18>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/T_FL'
+ * '<S19>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/T_FR'
+ * '<S20>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/T_FR1'
+ * '<S21>'  : 'tv_code/The Best TorqueVectoring/TorqueVectoring1/Torque distribution Tv/T_RL'
  */
 #endif                                 /* RTW_HEADER_tv_code_h_ */
 
