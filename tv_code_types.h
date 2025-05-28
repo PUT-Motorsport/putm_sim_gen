@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'tv_code'.
  *
- * Model version                  : 1.32
+ * Model version                  : 1.40
  * Simulink Coder version         : 9.8 (R2022b) 13-May-2022
- * C/C++ source code generated on : Tue Apr 29 17:15:15 2025
+ * C/C++ source code generated on : Wed May 28 17:21:41 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -99,6 +99,54 @@ struct tag_5puAQeCvQeiHcCpKgTlMeD
 typedef struct tag_5puAQeCvQeiHcCpKgTlMeD dsp_simulink_LowpassFilter_tv_T;
 
 #endif                             /* typedef_dsp_simulink_LowpassFilter_tv_T */
+
+#ifndef struct_tag_je9TdSm2yYb751inV09C2
+#define struct_tag_je9TdSm2yYb751inV09C2
+
+struct tag_je9TdSm2yYb751inV09C2
+{
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  real_T pWinLen;
+  real_T pBuf[5];
+  real_T pHeap[5];
+  real_T pMidHeap;
+  real_T pIdx;
+  real_T pPos[5];
+  real_T pMinHeapLength;
+  real_T pMaxHeapLength;
+};
+
+#endif                                 /* struct_tag_je9TdSm2yYb751inV09C2 */
+
+#ifndef typedef_c_dsp_internal_MedianFilterCG_T
+#define typedef_c_dsp_internal_MedianFilterCG_T
+
+typedef struct tag_je9TdSm2yYb751inV09C2 c_dsp_internal_MedianFilterCG_T;
+
+#endif                             /* typedef_c_dsp_internal_MedianFilterCG_T */
+
+#ifndef struct_tag_4kpgE3lCKM2mKMlNBIa8oB
+#define struct_tag_4kpgE3lCKM2mKMlNBIa8oB
+
+struct tag_4kpgE3lCKM2mKMlNBIa8oB
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  cell_wrap_tv_code_T inputVarSize;
+  int32_T NumChannels;
+  c_dsp_internal_MedianFilterCG_T pMID;
+};
+
+#endif                                 /* struct_tag_4kpgE3lCKM2mKMlNBIa8oB */
+
+#ifndef typedef_dsp_simulink_MedianFilter_tv__T
+#define typedef_dsp_simulink_MedianFilter_tv__T
+
+typedef struct tag_4kpgE3lCKM2mKMlNBIa8oB dsp_simulink_MedianFilter_tv__T;
+
+#endif                             /* typedef_dsp_simulink_MedianFilter_tv__T */
 
 /* Parameters (default storage) */
 typedef struct P_tv_code_T_ P_tv_code_T;
